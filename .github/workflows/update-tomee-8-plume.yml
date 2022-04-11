@@ -42,7 +42,7 @@ jobs:
                 YJ_VERSION: 5.0.0
             - uses: actions/checkout@v3
             - id: dependency
-              uses: docker://paketo-buildpacks/tomee-dependency:main
+              uses: docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
               with:
                 dist: plume
                 major: 8
