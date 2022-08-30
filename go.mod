@@ -9,7 +9,7 @@ require (
 	github.com/onsi/gomega v1.20.1
 	github.com/paketo-buildpacks/libjvm v1.40.0
 	github.com/paketo-buildpacks/libpak v1.61.0
-	github.com/paketo-buildpacks/occam v0.12.1
+	github.com/paketo-buildpacks/occam v0.13.0
 	github.com/sclevine/spec v1.4.0
 )
 
