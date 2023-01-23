@@ -6,10 +6,10 @@ require (
 	github.com/BurntSushi/toml v1.2.1
 	github.com/buildpacks/libcnb v1.27.0
 	github.com/heroku/color v0.0.6
-	github.com/onsi/gomega v1.24.2
+	github.com/onsi/gomega v1.25.0
 	github.com/paketo-buildpacks/libjvm v1.41.0
 	github.com/paketo-buildpacks/libpak v1.63.0
-	github.com/paketo-buildpacks/occam v0.13.3
+	github.com/paketo-buildpacks/occam v0.14.0
 	github.com/sclevine/spec v1.4.0
 )
 
@@ -49,7 +49,7 @@ require (
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.0-rc2 // indirect
 	github.com/opencontainers/runc v1.1.4 // indirect
-	github.com/paketo-buildpacks/packit/v2 v2.7.0 // indirect
+	github.com/paketo-buildpacks/packit/v2 v2.8.0 // indirect
 	github.com/pavlo-v-chernykh/keystore-go/v4 v4.4.1 // indirect
 	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
