@@ -21,7 +21,7 @@ require (
 	github.com/Masterminds/semver/v3 v3.2.0 // indirect
 	github.com/Microsoft/go-winio v0.6.0 // indirect
 	github.com/cenkalti/backoff/v4 v4.2.0 // indirect
-	github.com/containerd/containerd v1.6.17 // indirect
+	github.com/containerd/containerd v1.6.18 // indirect
 	github.com/creack/pty v1.1.18 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/docker/distribution v2.8.1+incompatible // indirect
