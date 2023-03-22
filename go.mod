@@ -8,7 +8,7 @@ require (
 	github.com/heroku/color v0.0.6
 	github.com/onsi/gomega v1.27.4
 	github.com/paketo-buildpacks/libjvm v1.41.0
-	github.com/paketo-buildpacks/libpak v1.63.0
+	github.com/paketo-buildpacks/libpak v1.64.0
 	github.com/paketo-buildpacks/occam v0.16.0
 	github.com/sclevine/spec v1.4.0
 )
@@ -35,7 +35,7 @@ require (
 	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/h2non/filetype v1.1.3 // indirect
-	github.com/imdario/mergo v0.3.13 // indirect
+	github.com/imdario/mergo v0.3.14 // indirect
 	github.com/klauspost/compress v1.16.0 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
@@ -68,6 +68,6 @@ require (
 	golang.org/x/tools v0.7.0 // indirect
 	google.golang.org/genproto v0.0.0-20230303212802-e74f57abe488 // indirect
 	google.golang.org/grpc v1.53.0 // indirect
-	google.golang.org/protobuf v1.28.1 // indirect
+	google.golang.org/protobuf v1.30.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
