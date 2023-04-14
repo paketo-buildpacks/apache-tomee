@@ -4,9 +4,9 @@ go 1.18
 
 require (
 	github.com/BurntSushi/toml v1.2.1
-	github.com/buildpacks/libcnb v1.27.0
+	github.com/buildpacks/libcnb v1.28.0
 	github.com/heroku/color v0.0.6
-	github.com/onsi/gomega v1.27.4
+	github.com/onsi/gomega v1.27.6
 	github.com/paketo-buildpacks/libjvm v1.41.0
 	github.com/paketo-buildpacks/libpak v1.64.0
 	github.com/paketo-buildpacks/occam v0.16.0
@@ -18,7 +18,7 @@ replace github.com/docker/docker => github.com/docker/docker v20.10.3-0.20221013
 require (
 	github.com/Azure/go-ansiterm v0.0.0-20230124172434-306776ec8161 // indirect
 	github.com/ForestEckhardt/freezer v0.0.12 // indirect
-	github.com/Masterminds/semver/v3 v3.2.0 // indirect
+	github.com/Masterminds/semver/v3 v3.2.1 // indirect
 	github.com/Microsoft/go-winio v0.6.0 // indirect
 	github.com/cenkalti/backoff/v4 v4.2.0 // indirect
 	github.com/containerd/containerd v1.6.19 // indirect
