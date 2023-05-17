@@ -47,6 +47,7 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 
 			source, err = occam.Source(filepath.Join("testdata"))
 			Expect(err).NotTo(HaveOccurred())
+			os.Setenv("CGO_ENABLED", "0")
 		})
 
 		it.After(func() {
