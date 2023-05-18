@@ -2,6 +2,7 @@
 
 set -euo pipefail
 
+export CGO_ENABLED=0
 GOOS="linux" go build -ldflags='-s -w' -o bin/helper github.com/paketo-buildpacks/apache-tomee/cmd/helper
 GOOS="linux" go build -ldflags='-s -w' -o bin/main github.com/paketo-buildpacks/apache-tomee/cmd/main
 
