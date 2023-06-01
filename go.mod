@@ -3,11 +3,11 @@ module github.com/paketo-buildpacks/apache-tomee
 go 1.20
 
 require (
-	github.com/BurntSushi/toml v1.2.1
+	github.com/BurntSushi/toml v1.3.0
 	github.com/buildpacks/libcnb v1.28.0
 	github.com/heroku/color v0.0.6
 	github.com/onsi/gomega v1.27.7
-	github.com/paketo-buildpacks/libjvm v1.42.0
+	github.com/paketo-buildpacks/libjvm v1.43.0
 	github.com/paketo-buildpacks/libpak v1.65.0
 	github.com/paketo-buildpacks/occam v0.16.0
 	github.com/sclevine/spec v1.4.0
@@ -57,7 +57,7 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/sirupsen/logrus v1.9.2 // indirect
 	github.com/stretchr/objx v0.5.0 // indirect
-	github.com/stretchr/testify v1.8.3 // indirect
+	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/testcontainers/testcontainers-go v0.20.1 // indirect
 	github.com/ulikunitz/xz v0.5.11 // indirect
 	github.com/xi2/xz v0.0.0-20171230120015-48954b6210f8 // indirect
