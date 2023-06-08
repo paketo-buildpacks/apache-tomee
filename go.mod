@@ -7,8 +7,8 @@ require (
 	github.com/buildpacks/libcnb v1.28.0
 	github.com/heroku/color v0.0.6
 	github.com/onsi/gomega v1.27.7
-	github.com/paketo-buildpacks/libjvm v1.43.0
-	github.com/paketo-buildpacks/libpak v1.65.0
+	github.com/paketo-buildpacks/libjvm v1.43.1
+	github.com/paketo-buildpacks/libpak v1.66.0
 	github.com/paketo-buildpacks/occam v0.16.0
 	github.com/sclevine/spec v1.4.0
 )
@@ -52,7 +52,6 @@ require (
 	github.com/opencontainers/runc v1.1.7 // indirect
 	github.com/paketo-buildpacks/packit/v2 v2.11.0 // indirect
 	github.com/pavlo-v-chernykh/keystore-go/v4 v4.4.1 // indirect
-	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
