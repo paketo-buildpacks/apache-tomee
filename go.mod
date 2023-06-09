@@ -3,7 +3,7 @@ module github.com/paketo-buildpacks/apache-tomee
 go 1.20
 
 require (
-	github.com/BurntSushi/toml v1.3.1
+	github.com/BurntSushi/toml v1.3.2
 	github.com/buildpacks/libcnb v1.28.0
 	github.com/heroku/color v0.0.6
 	github.com/onsi/gomega v1.27.8
