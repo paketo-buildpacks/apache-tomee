@@ -46,6 +46,7 @@ jobs:
               with:
                 artifact_id: tomcat-lifecycle-support
                 group_id: org.cloudfoundry
+                source_classifier: sources
                 uri: https://repo1.maven.org/maven2
                 version_regex: ^[\d]+\.[\d]+\.[\d]+\.RELEASE$
             - name: Update Buildpack Dependency
@@ -73,7 +74,7 @@ jobs:
                   --uri "${URI}" \
                   --sha256 "${SHA256}" \
                   --source "${SOURCE_URI}" \
-                  --sourceSha256 "${SOURCE_SHA256}"
+                  --source-sha256 "${SOURCE_SHA256}"
 
                 git add buildpack.toml
                 git checkout -- .
