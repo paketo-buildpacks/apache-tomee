@@ -47,15 +47,7 @@ func testBase(t *testing.T, context spec.G, it spec.S) {
 
 		ctx.Layers.Path, err = os.MkdirTemp("", "base-layers")
 		Expect(err).NotTo(HaveOccurred())
-	})
 
-	it.After(func() {
-		Expect(os.RemoveAll(ctx.Application.Path)).To(Succeed())
-		Expect(os.RemoveAll(ctx.Buildpack.Path)).To(Succeed())
-		Expect(os.RemoveAll(ctx.Layers.Path)).To(Succeed())
-	})
-
-	it("contributes catalina base", func() {
 		Expect(os.MkdirAll(filepath.Join(ctx.Buildpack.Path, "resources"), 0755)).To(Succeed())
 		Expect(os.WriteFile(filepath.Join(ctx.Buildpack.Path, "resources", "context.xml"), []byte{}, 0644)).
 			To(Succeed())
@@ -69,6 +61,15 @@ func testBase(t *testing.T, context spec.G, it spec.S) {
 			To(Succeed())
 		Expect(os.WriteFile(filepath.Join(ctx.Buildpack.Path, "resources", "openejb.xml"), []byte{}, 0644)).
 			To(Succeed())
+	})
+
+	it.After(func() {
+		Expect(os.RemoveAll(ctx.Application.Path)).To(Succeed())
+		Expect(os.RemoveAll(ctx.Buildpack.Path)).To(Succeed())
+		Expect(os.RemoveAll(ctx.Layers.Path)).To(Succeed())
+	})
+
+	it("contributes catalina base", func() {
 
 		accessLoggingDep := libpak.BuildpackDependency{
 			ID:     "tomcat-access-logging-support",
@@ -139,20 +140,6 @@ func testBase(t *testing.T, context spec.G, it spec.S) {
 	})
 
 	it("contributes custom configuration", func() {
-		Expect(os.MkdirAll(filepath.Join(ctx.Buildpack.Path, "resources"), 0755)).To(Succeed())
-		Expect(os.WriteFile(filepath.Join(ctx.Buildpack.Path, "resources", "context.xml"), []byte{}, 0644)).
-			To(Succeed())
-		Expect(os.WriteFile(filepath.Join(ctx.Buildpack.Path, "resources", "logging.properties"), []byte{}, 0644)).
-			To(Succeed())
-		Expect(os.WriteFile(filepath.Join(ctx.Buildpack.Path, "resources", "server.xml"), []byte{}, 0644)).
-			To(Succeed())
-		Expect(os.WriteFile(filepath.Join(ctx.Buildpack.Path, "resources", "web.xml"), []byte{}, 0644)).
-			To(Succeed())
-		Expect(os.WriteFile(filepath.Join(ctx.Buildpack.Path, "resources", "tomee.xml"), []byte{}, 0644)).
-			To(Succeed())
-		Expect(os.WriteFile(filepath.Join(ctx.Buildpack.Path, "resources", "openejb.xml"), []byte{}, 0644)).
-			To(Succeed())
-
 		externalConfigurationDep := libpak.BuildpackDependency{
 			ID:     "tomcat-external-configuration",
 			URI:    "https://localhost/stub-external-configuration.tar.gz",
@@ -205,20 +192,6 @@ func testBase(t *testing.T, context spec.G, it spec.S) {
 		})
 
 		it("contributes custom configuration with directory", func() {
-			Expect(os.MkdirAll(filepath.Join(ctx.Buildpack.Path, "resources"), 0755)).To(Succeed())
-			Expect(os.WriteFile(filepath.Join(ctx.Buildpack.Path, "resources", "context.xml"), []byte{}, 0644)).
-				To(Succeed())
-			Expect(os.WriteFile(filepath.Join(ctx.Buildpack.Path, "resources", "logging.properties"), []byte{}, 0644)).
-				To(Succeed())
-			Expect(os.WriteFile(filepath.Join(ctx.Buildpack.Path, "resources", "server.xml"), []byte{}, 0644)).
-				To(Succeed())
-			Expect(os.WriteFile(filepath.Join(ctx.Buildpack.Path, "resources", "web.xml"), []byte{}, 0644)).
-				To(Succeed())
-			Expect(os.WriteFile(filepath.Join(ctx.Buildpack.Path, "resources", "tomee.xml"), []byte{}, 0644)).
-				To(Succeed())
-			Expect(os.WriteFile(filepath.Join(ctx.Buildpack.Path, "resources", "openejb.xml"), []byte{}, 0644)).
-				To(Succeed())
-
 			externalConfigurationDep := libpak.BuildpackDependency{
 				ID:     "tomcat-external-configuration",
 				URI:    "https://localhost/stub-external-configuration-with-directory.tar.gz",
@@ -263,4 +236,80 @@ func testBase(t *testing.T, context spec.G, it spec.S) {
 		})
 	})
 
+	context("$BPI_TOMCAT_ADDITIONAL_JARS is set", func() {
+		it.Before(func() {
+			t.Setenv("BPI_TOMCAT_ADDITIONAL_JARS", "/layers/test-buildpack/foo/bar.jar")
+		})
+
+		it("additional jar is added to classpath", func() {
+			accessLoggingDep := libpak.BuildpackDependency{
+				ID:     "tomcat-access-logging-support",
+				URI:    "https://localhost/stub-tomcat-access-logging-support.jar",
+				SHA256: "d723bfe2ba67dfa92b24e3b6c7b2d0e6a963de7313350e306d470e44e330a5d2",
+				PURL:   "pkg:generic/tomcat-access-logging-support@3.3.0",
+				CPEs:   []string{"cpe:2.3:a:cloudfoundry:tomcat-access-logging-support:3.3.0:*:*:*:*:*:*:*"},
+			}
+			lifecycleDep := libpak.BuildpackDependency{
+				ID:     "tomcat-lifecycle-support",
+				URI:    "https://localhost/stub-tomcat-lifecycle-support.jar",
+				SHA256: "723126712c0b22a7fe409664adf1fbb78cf3040e313a82c06696f5058e190534",
+				PURL:   "pkg:generic/tomcat-lifecycle-support@3.3.0",
+				CPEs:   []string{"cpe:2.3:a:cloudfoundry:tomcat-lifecycle-support:3.3.0:*:*:*:*:*:*:*"},
+			}
+			loggingDep := libpak.BuildpackDependency{
+				ID:     "tomcat-logging-support",
+				URI:    "https://localhost/stub-tomcat-logging-support.jar",
+				SHA256: "e0a7e163cc9f1ffd41c8de3942c7c6b505090b7484c2ba9be846334e31c44a2c",
+				PURL:   "pkg:generic/tomcat-logging-support@3.3.0",
+				CPEs:   []string{"cpe:2.3:a:cloudfoundry:tomcat-logging-support:3.3.0:*:*:*:*:*:*:*"},
+			}
+
+			dc := libpak.DependencyCache{CachePath: "testdata"}
+
+			contributor, entries := tomee.NewBase(
+				ctx.Application.Path,
+				ctx.Buildpack.Path,
+				libpak.ConfigurationResolver{},
+				"test-context-path",
+				accessLoggingDep,
+				nil,
+				lifecycleDep,
+				loggingDep,
+				dc,
+			)
+
+			Expect(entries).To(HaveLen(0))
+
+			layer, err := ctx.Layers.Layer("test-layer")
+			Expect(err).NotTo(HaveOccurred())
+
+			layer, err = contributor.Contribute(layer)
+			Expect(err).NotTo(HaveOccurred())
+
+			Expect(layer.Launch).To(BeTrue())
+			Expect(filepath.Join(layer.Path, "conf", "context.xml")).To(BeARegularFile())
+			Expect(filepath.Join(layer.Path, "conf", "logging.properties")).To(BeARegularFile())
+			Expect(filepath.Join(layer.Path, "conf", "server.xml")).To(BeARegularFile())
+			Expect(filepath.Join(layer.Path, "conf", "web.xml")).To(BeARegularFile())
+			Expect(filepath.Join(layer.Path, "conf", "tomee.xml")).To(BeARegularFile())
+			Expect(filepath.Join(layer.Path, "conf", "openejb.xml")).To(BeARegularFile())
+			Expect(filepath.Join(layer.Path, "lib", "stub-tomcat-access-logging-support.jar")).To(BeARegularFile())
+			Expect(filepath.Join(layer.Path, "lib", "stub-tomcat-lifecycle-support.jar")).To(BeARegularFile())
+			Expect(filepath.Join(layer.Path, "bin", "stub-tomcat-logging-support.jar")).To(BeARegularFile())
+			Expect(filepath.Join(layer.Path, "temp")).To(BeADirectory())
+
+			file := filepath.Join(layer.Path, "webapps", "test-context-path")
+			fi, err := os.Lstat(file)
+			Expect(err).NotTo(HaveOccurred())
+			Expect(fi.Mode() & os.ModeSymlink).To(Equal(os.ModeSymlink))
+			Expect(os.Readlink(file)).To(Equal(ctx.Application.Path))
+
+			Expect(layer.LaunchEnvironment["CATALINA_BASE.default"]).To(Equal(layer.Path))
+			Expect(layer.LaunchEnvironment["CATALINA_OPTS.default"]).To(Equal("-Dorg.apache.tomcat.util.digester.PROPERTY_SOURCE=org.apache.tomcat.util.digester.EnvironmentPropertySource"))
+
+			Expect(os.ReadFile(filepath.Join(layer.Path, "bin", "setenv.sh"))).To(Equal(
+				[]byte(fmt.Sprintf(`CLASSPATH="%s:%s"`, filepath.Join(layer.Path, "bin", "stub-tomcat-logging-support.jar"), "/layers/test-buildpack/foo/bar.jar"))))
+		})
+
+	})
 }
