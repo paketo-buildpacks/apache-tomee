@@ -172,8 +172,8 @@ jobs:
 
                 else
                   pack -v buildpack package \
-                    "${PACKAGE}:${VERSION}" ${CONFIG} \
-                    --format "${FORMAT}"
+                    "ttl.sh/${PACKAGE}-${VERSION}:1h" ${CONFIG} \
+                    --format "${FORMAT}" --publish
                 fi
               env:
                 FORMAT: image
