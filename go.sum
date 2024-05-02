@@ -1327,6 +1327,7 @@ github.com/docker/docker v23.0.1+incompatible/go.mod h1:eEKB0N0r5NX/I1kEveEz05bc
 github.com/docker/docker v23.0.5+incompatible/go.mod h1:eEKB0N0r5NX/I1kEveEz05bcu8tLC/8azJZsviup8Sk=
 github.com/docker/docker v26.0.0+incompatible h1:Ng2qi+gdKADUa/VM+6b6YaY2nlZhk/lVJiKR/2bMudU=
 github.com/docker/docker v26.0.0+incompatible/go.mod h1:eEKB0N0r5NX/I1kEveEz05bcu8tLC/8azJZsviup8Sk=
+github.com/docker/docker v26.0.1+incompatible/go.mod h1:eEKB0N0r5NX/I1kEveEz05bcu8tLC/8azJZsviup8Sk=
 github.com/docker/docker-credential-helpers v0.6.3/go.mod h1:WRaJzqw3CTB9bk10avuGsjVBZsD05qeibJ1/TYlvc0Y=
 github.com/docker/docker-credential-helpers v0.6.4/go.mod h1:ofX3UI0Gz1TteYBjtgs07O36Pyasyp66D2uKT7H8W1c=
 github.com/docker/docker-credential-helpers v0.7.0 h1:xtCHsjxogADNZcdv1pKUHXryefjlVRqWqIhk/uXJp0A=
@@ -2552,6 +2553,7 @@ github.com/paketo-buildpacks/libpak v1.69.0 h1:AUn68IDq9zTMNJkmG+dx4pO/6mlwevmTW
 github.com/paketo-buildpacks/libpak v1.69.0/go.mod h1:sGW2nG+QL8jtQrIpr3Rluo3dGIKZRQbVkQBqrj94Bnc=
 github.com/paketo-buildpacks/occam v0.18.2 h1:zhYzJ4uPXKoYt500SgK45XBjYMtjLC61MmNogmHAIa0=
 github.com/paketo-buildpacks/occam v0.18.2/go.mod h1:jvpmKHQdUUfO7HwKoRQXDep1WrZfrPqc/LcllMBZDlY=
+github.com/paketo-buildpacks/occam v0.18.5/go.mod h1:7zPy6gwW96OIclo80s9aR730mDTl40jKzJTkKVDTshw=
 github.com/paketo-buildpacks/packit/v2 v2.6.1/go.mod h1:iBArWOfC5xZQF01o+zwnVKS+/hUBuFG+O1jCvzqBujs=
 github.com/paketo-buildpacks/packit/v2 v2.12.0 h1:5ip4uoAf8daV2LdpNU3fX6U5DvJlIPc/4WqEuIOpbrQ=
 github.com/paketo-buildpacks/packit/v2 v2.12.0/go.mod h1:sf8X7/fH6xJ3TzZ3KLCmgE10JX7P+CYgfrWrr8N/iU0=
@@ -2906,6 +2908,7 @@ github.com/tenntenn/text/transform v0.0.0-20200319021203-7eef512accb3/go.mod h1:
 github.com/tent/canonical-json-go v0.0.0-20130607151641-96e4ba3a7613/go.mod h1:g6AnIpDSYMcphz193otpSIzN+11Rs+AAIIC6rm1enug=
 github.com/testcontainers/testcontainers-go v0.29.1 h1:z8kxdFlovA2y97RWx98v/TQ+tR+SXZm6p35M+xB92zk=
 github.com/testcontainers/testcontainers-go v0.29.1/go.mod h1:SnKnKQav8UcgtKqjp/AD8bE1MqZm+3TDb/B8crE3XnI=
+github.com/testcontainers/testcontainers-go v0.30.0/go.mod h1:K+kHNGiM5zjklKjgTtcrEetF3uhWbMUyqAQoyoh8Pf0=
 github.com/tetafro/godot v1.4.11/go.mod h1:LR3CJpxDVGlYOWn3ZZg1PgNZdTUvzsZWu8xaEohUpn8=
 github.com/thales-e-security/pool v0.0.2/go.mod h1:qtpMm2+thHtqhLzTwgDBj/OuNnMpupY8mv0Phz0gjhU=
 github.com/therootcompany/xz v1.0.1/go.mod h1:3K3UH1yCKgBneZYhuQUvJ9HPD19UEXEI0BWbMn8qNMY=
