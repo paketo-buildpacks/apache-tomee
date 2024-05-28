@@ -6,7 +6,7 @@ require (
 	github.com/buildpacks/libcnb v1.30.3
 	github.com/heroku/color v0.0.6
 	github.com/onsi/gomega v1.33.1
-	github.com/paketo-buildpacks/libjvm v1.44.4
+	github.com/paketo-buildpacks/libjvm v1.45.0
 	github.com/paketo-buildpacks/libpak v1.70.0
 	github.com/paketo-buildpacks/occam v0.18.5
 	github.com/sclevine/spec v1.4.0
@@ -15,7 +15,7 @@ require (
 require (
 	dario.cat/mergo v1.0.0 // indirect
 	github.com/Azure/go-ansiterm v0.0.0-20230124172434-306776ec8161 // indirect
-	github.com/BurntSushi/toml v1.3.2 // indirect
+	github.com/BurntSushi/toml v1.4.0 // indirect
 	github.com/ForestEckhardt/freezer v0.0.12 // indirect
 	github.com/Masterminds/semver/v3 v3.2.1 // indirect
 	github.com/Microsoft/go-winio v0.6.2 // indirect
@@ -33,7 +33,7 @@ require (
 	github.com/docker/go-connections v0.5.0 // indirect
 	github.com/docker/go-units v0.5.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
-	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
+	github.com/gabriel-vasile/mimetype v1.4.4 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-ole/go-ole v1.3.0 // indirect
