@@ -50,6 +50,8 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		sbomScanner.On("ScanLaunch", ctx.Application.Path, libcnb.SyftJSON, libcnb.CycloneDXJSON).Return(nil)
 
 		Expect(os.Setenv("BP_TOMEE_DISTRIBUTION", "microprofile")).To(Succeed())
+
+		t.Setenv("BP_ARCH", "amd64")
 	})
 
 	it.After(func() {
