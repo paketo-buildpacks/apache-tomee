@@ -7,10 +7,10 @@ toolchain go1.23.3
 require (
 	github.com/buildpacks/libcnb v1.30.4
 	github.com/heroku/color v0.0.6
-	github.com/onsi/gomega v1.35.1
+	github.com/onsi/gomega v1.36.0
 	github.com/paketo-buildpacks/libjvm v1.46.0
 	github.com/paketo-buildpacks/libpak v1.72.0
-	github.com/paketo-buildpacks/occam v0.19.0
+	github.com/paketo-buildpacks/occam v0.20.0
 	github.com/sclevine/spec v1.4.0
 )
 
@@ -25,7 +25,7 @@ require (
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/containerd/log v0.1.0 // indirect
 	github.com/containerd/platforms v0.2.1 // indirect
-	github.com/containerd/stargz-snapshotter/estargz v0.16.1 // indirect
+	github.com/containerd/stargz-snapshotter/estargz v0.16.2 // indirect
 	github.com/cpuguy83/dockercfg v0.3.2 // indirect
 	github.com/creack/pty v1.1.24 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
