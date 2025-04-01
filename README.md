@@ -1,4 +1,8 @@
-# `gcr.io/paketo-buildpacks/apache-tomee`
+# Paketo Buildpack for Apache Tomee
+
+## Buildpack ID: `paketo-buildpacks/apache-tomee`
+## Registry URLs: `docker.io/paketobuildpacks/apache-tomee`
+
 The Apache Tomee Buildpack is a Cloud Native Buildpack that contributes Apache Tomee and Process Types for WARs.
 
 ## Behavior

@@ -71,11 +71,11 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 				WithVerbose().
 				Build.
 				WithPullPolicy("if-not-present").
-				WithBuilder("paketobuildpacks/builder:buildpackless-base").
-				WithBuildpacks("gcr.io/paketo-buildpacks/ca-certificates",
-					"gcr.io/paketo-buildpacks/bellsoft-liberica",
-					"gcr.io/paketo-buildpacks/syft",
-					"gcr.io/paketo-buildpacks/maven",
+				WithBuilder("docker.io/paketobuildpacks/builder:buildpackless-base").
+				WithBuildpacks("docker.io/paketobuildpacks/ca-certificates",
+					"docker.io/paketobuildpacks/bellsoft-liberica",
+					"docker.io/paketobuildpacks/syft",
+					"docker.io/paketobuildpacks/maven",
 					buildpack).
 				WithEnv(map[string]string{
 					"BP_JAVA_APP_SERVER":       "tomee",
@@ -110,11 +110,11 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 				WithVerbose().
 				Build.
 				WithPullPolicy("if-not-present").
-				WithBuilder("paketobuildpacks/builder:buildpackless-tiny").
-				WithBuildpacks("gcr.io/paketo-buildpacks/ca-certificates",
-					"gcr.io/paketo-buildpacks/bellsoft-liberica",
-					"gcr.io/paketo-buildpacks/syft",
-					"gcr.io/paketo-buildpacks/maven",
+				WithBuilder("docker.io/paketobuildpacks/builder:buildpackless-tiny").
+				WithBuildpacks("docker.io/paketobuildpacks/ca-certificates",
+					"docker.io/paketobuildpacks/bellsoft-liberica",
+					"docker.io/paketobuildpacks/syft",
+					"docker.io/paketobuildpacks/maven",
 					buildpack).
 				WithEnv(map[string]string{
 					"BP_JAVA_APP_SERVER":       "tomee",
