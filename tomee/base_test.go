@@ -48,6 +48,11 @@ func testBase(t *testing.T, context spec.G, it spec.S) {
 		ctx.Layers.Path, err = os.MkdirTemp("", "base-layers")
 		Expect(err).NotTo(HaveOccurred())
 
+		Expect(os.MkdirAll(filepath.Join(ctx.Layers.Path, "tomee-microprofile", "conf"), 0755)).To(Succeed())
+		commonLoader := "common.loader=\"${catalina.base}/lib\",\"${catalina.base}/lib/*.jar\",\"${catalina.home}/lib\",\"${catalina.home}/lib/*.jar\""
+		Expect(os.WriteFile(filepath.Join(ctx.Layers.Path, "tomee-microprofile", "conf", "catalina.properties"), []byte(commonLoader), 0644)).
+			To(Succeed())
+
 		Expect(os.MkdirAll(filepath.Join(ctx.Buildpack.Path, "resources"), 0755)).To(Succeed())
 		Expect(os.WriteFile(filepath.Join(ctx.Buildpack.Path, "resources", "context.xml"), []byte{}, 0644)).
 			To(Succeed())
@@ -61,12 +66,15 @@ func testBase(t *testing.T, context spec.G, it spec.S) {
 			To(Succeed())
 		Expect(os.WriteFile(filepath.Join(ctx.Buildpack.Path, "resources", "openejb.xml"), []byte{}, 0644)).
 			To(Succeed())
+
+		Expect(os.Setenv("BP_TOMEE_DISTRIBUTION", "microprofile")).To(Succeed())
 	})
 
 	it.After(func() {
 		Expect(os.RemoveAll(ctx.Application.Path)).To(Succeed())
 		Expect(os.RemoveAll(ctx.Buildpack.Path)).To(Succeed())
 		Expect(os.RemoveAll(ctx.Layers.Path)).To(Succeed())
+		Expect(os.Unsetenv("BP_TOMEE_DISTRIBUTION")).To(Succeed())
 	})
 
 	it("contributes catalina base", func() {
@@ -121,6 +129,8 @@ func testBase(t *testing.T, context spec.G, it spec.S) {
 		Expect(filepath.Join(layer.Path, "conf", "web.xml")).To(BeARegularFile())
 		Expect(filepath.Join(layer.Path, "conf", "tomee.xml")).To(BeARegularFile())
 		Expect(filepath.Join(layer.Path, "conf", "openejb.xml")).To(BeARegularFile())
+		Expect(filepath.Join(layer.Path, "conf", "catalina.properties")).To(BeARegularFile())
+		Expect(os.ReadFile(filepath.Join(layer.Path, "conf", "catalina.properties"))).To(ContainSubstring("common.loader=${BPI_TOMCAT_ADDITIONAL_COMMON_JARS}"))
 		Expect(filepath.Join(layer.Path, "lib", "stub-tomcat-access-logging-support.jar")).To(BeARegularFile())
 		Expect(filepath.Join(layer.Path, "lib", "stub-tomcat-lifecycle-support.jar")).To(BeARegularFile())
 		Expect(filepath.Join(layer.Path, "bin", "stub-tomcat-logging-support.jar")).To(BeARegularFile())
@@ -136,7 +146,7 @@ func testBase(t *testing.T, context spec.G, it spec.S) {
 		Expect(os.Readlink(file)).To(Equal(ctx.Application.Path))
 
 		Expect(layer.LaunchEnvironment["CATALINA_BASE.default"]).To(Equal(layer.Path))
-		Expect(layer.LaunchEnvironment["CATALINA_OPTS.default"]).To(Equal("-Dorg.apache.tomcat.util.digester.PROPERTY_SOURCE=org.apache.tomcat.util.digester.EnvironmentPropertySource"))
+		Expect(layer.LaunchEnvironment["CATALINA_OPTS.default"]).To(Equal("-DBPI_TOMCAT_ADDITIONAL_COMMON_JARS=${BPI_TOMCAT_ADDITIONAL_COMMON_JARS} -Dorg.apache.tomcat.util.digester.PROPERTY_SOURCE=org.apache.tomcat.util.digester.EnvironmentPropertySource"))
 	})
 
 	it("contributes custom configuration", func() {
@@ -293,6 +303,8 @@ func testBase(t *testing.T, context spec.G, it spec.S) {
 			Expect(filepath.Join(layer.Path, "conf", "web.xml")).To(BeARegularFile())
 			Expect(filepath.Join(layer.Path, "conf", "tomee.xml")).To(BeARegularFile())
 			Expect(filepath.Join(layer.Path, "conf", "openejb.xml")).To(BeARegularFile())
+			Expect(filepath.Join(layer.Path, "conf", "catalina.properties")).To(BeARegularFile())
+			Expect(os.ReadFile(filepath.Join(layer.Path, "conf", "catalina.properties"))).To(ContainSubstring("common.loader=${BPI_TOMCAT_ADDITIONAL_COMMON_JARS}"))
 			Expect(filepath.Join(layer.Path, "lib", "stub-tomcat-access-logging-support.jar")).To(BeARegularFile())
 			Expect(filepath.Join(layer.Path, "lib", "stub-tomcat-lifecycle-support.jar")).To(BeARegularFile())
 			Expect(filepath.Join(layer.Path, "bin", "stub-tomcat-logging-support.jar")).To(BeARegularFile())
@@ -305,7 +317,7 @@ func testBase(t *testing.T, context spec.G, it spec.S) {
 			Expect(os.Readlink(file)).To(Equal(ctx.Application.Path))
 
 			Expect(layer.LaunchEnvironment["CATALINA_BASE.default"]).To(Equal(layer.Path))
-			Expect(layer.LaunchEnvironment["CATALINA_OPTS.default"]).To(Equal("-Dorg.apache.tomcat.util.digester.PROPERTY_SOURCE=org.apache.tomcat.util.digester.EnvironmentPropertySource"))
+			Expect(layer.LaunchEnvironment["CATALINA_OPTS.default"]).To(Equal("-DBPI_TOMCAT_ADDITIONAL_COMMON_JARS=${BPI_TOMCAT_ADDITIONAL_COMMON_JARS} -Dorg.apache.tomcat.util.digester.PROPERTY_SOURCE=org.apache.tomcat.util.digester.EnvironmentPropertySource"))
 
 			Expect(os.ReadFile(filepath.Join(layer.Path, "bin", "setenv.sh"))).To(Equal(
 				[]byte(fmt.Sprintf(`CLASSPATH="%s:%s"`, filepath.Join(layer.Path, "bin", "stub-tomcat-logging-support.jar"), "/layers/test-buildpack/foo/bar.jar"))))
