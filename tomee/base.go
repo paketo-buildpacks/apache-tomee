@@ -394,10 +394,13 @@ func (b Base) ContributeCatalinaProps(layer libcnb.Layer) error {
 	baseProps := filepath.Join(layer.Path, "conf", "catalina.properties")
 
 	if _, err := os.Stat(baseProps); errors.Is(err, os.ErrNotExist) {
+		if _, err := os.Stat(homeProps); errors.Is(err, os.ErrNotExist) {
+			b.Logger.Bodyf("Skipping copying of catalina.properties, %s does not exist", homeProps)
+			return nil
+		}
 		in, err := os.Open(homeProps)
 		if err != nil {
-			b.Logger.Bodyf("Skipping copying of catalina.properties, unable to open %s", homeProps)
-			return nil
+			return fmt.Errorf("unable to open %s\n%w", homeProps, err)
 		}
 		defer in.Close()
 
