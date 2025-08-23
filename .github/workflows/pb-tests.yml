@@ -180,7 +180,7 @@ jobs:
 
                 go test ./integration/... -run Integration
               env:
-                PACKAGE: test
+                PACKAGE: paketo-java-test
                 VERSION: ${{ steps.version.outputs.version }}
     unit:
         name: Unit Test
