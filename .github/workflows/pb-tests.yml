@@ -112,7 +112,6 @@ jobs:
                 OS: linux
                 VERSION: ${{ steps.version.outputs.version }}
             - name: Package Buildpack
-              id: package-buildpack
               run: |-
                 #!/usr/bin/env bash
 
@@ -169,18 +168,8 @@ jobs:
                 fi
               env:
                 FORMAT: image
-                PACKAGES: ttl.sh/paketo-java-test-${{ steps.version.outputs.version }}
-                TTL_SH_PUBLISH: "true"
-                VERSION: 1h
-            - name: Run Integration Tests
-              run: |
-                #!/usr/bin/env bash
-
-                set -euo pipefail
-
-                go test ./integration/... -run Integration
-              env:
-                PACKAGE: paketo-java-test
+                PACKAGES: test
+                TTL_SH_PUBLISH: "false"
                 VERSION: ${{ steps.version.outputs.version }}
     unit:
         name: Unit Test
@@ -221,6 +210,6 @@ jobs:
 
                 set -euo pipefail
 
-                richgo test ./... -run Unit
+                richgo test ./...
               env:
                 RICHGO_FORCE_COLOR: "1"
