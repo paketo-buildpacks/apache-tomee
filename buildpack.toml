@@ -87,134 +87,6 @@ api = "0.7"
     name = "BP_JAVA_APP_SERVER"
 
   [[metadata.dependencies]]
-    cpes = ["cpe:2.3:a:apache:tomee-microprofile:7.1.4:*:*:*:*:*:*:*"]
-    id = "tomee-microprofile"
-    name = "Apache Tomee - Microprofile"
-    purl = "pkg:generic/apache-tomee@7.1.4"
-    sha256 = "af8d2e3596a3df4c47db2e9386db1212bc17f688e547e3941d6c958821e859b0"
-    source = "https://archive.apache.org/dist/tomee/tomee-7.1.4/tomee-project-7.1.4-source-release.zip"
-    source-sha256 = "c700555e7f888bd601f0b115b208f2b64fb7bd8105b2e1743a412100e7873423"
-    stacks = ["*"]
-    uri = "https://archive.apache.org/dist/tomee/tomee-7.1.4/apache-tomee-7.1.4-microprofile.tar.gz"
-    version = "7.1.4"
-
-    [[metadata.dependencies.licenses]]
-      type = "Apache-2.0"
-      uri = "https://www.apache.org/licenses/"
-
-  [[metadata.dependencies]]
-    cpes = ["cpe:2.3:a:apache:tomee-webprofile:7.1.4:*:*:*:*:*:*:*"]
-    id = "tomee-webprofile"
-    name = "Apache Tomee - Webprofile"
-    purl = "pkg:generic/apache-tomee@7.1.4"
-    sha256 = "ee4fd96e0b308b40325c32376e4179d1620791fc76e38943d7337b409f445d3e"
-    source = "https://archive.apache.org/dist/tomee/tomee-7.1.4/tomee-project-7.1.4-source-release.zip"
-    source-sha256 = "c700555e7f888bd601f0b115b208f2b64fb7bd8105b2e1743a412100e7873423"
-    stacks = ["*"]
-    uri = "https://archive.apache.org/dist/tomee/tomee-7.1.4/apache-tomee-7.1.4-webprofile.tar.gz"
-    version = "7.1.4"
-
-    [[metadata.dependencies.licenses]]
-      type = "Apache-2.0"
-      uri = "https://www.apache.org/licenses/"
-
-  [[metadata.dependencies]]
-    cpes = ["cpe:2.3:a:apache:tomee-plus:7.1.4:*:*:*:*:*:*:*"]
-    id = "tomee-plus"
-    name = "Apache Tomee - Plus"
-    purl = "pkg:generic/apache-tomee@7.1.4"
-    sha256 = "df17dd309dddcfa088e6d8f5d7885622d152e970a3978cb8a0c6514ca31158d9"
-    source = "https://archive.apache.org/dist/tomee/tomee-7.1.4/tomee-project-7.1.4-source-release.zip"
-    source-sha256 = "c700555e7f888bd601f0b115b208f2b64fb7bd8105b2e1743a412100e7873423"
-    stacks = ["*"]
-    uri = "https://archive.apache.org/dist/tomee/tomee-7.1.4/apache-tomee-7.1.4-plus.tar.gz"
-    version = "7.1.4"
-
-    [[metadata.dependencies.licenses]]
-      type = "Apache-2.0"
-      uri = "https://www.apache.org/licenses/"
-
-  [[metadata.dependencies]]
-    cpes = ["cpe:2.3:a:apache:tomee-plume:7.1.4:*:*:*:*:*:*:*"]
-    id = "tomee-plume"
-    name = "Apache Tomee - Plume"
-    purl = "pkg:generic/apache-tomee@7.1.4"
-    sha256 = "089a6e7b15e5a76a52c4d8f910964bd7d34a24e1ec8b83ca03839f32af6ac360"
-    source = "https://archive.apache.org/dist/tomee/tomee-7.1.4/tomee-project-7.1.4-source-release.zip"
-    source-sha256 = "c700555e7f888bd601f0b115b208f2b64fb7bd8105b2e1743a412100e7873423"
-    stacks = ["*"]
-    uri = "https://archive.apache.org/dist/tomee/tomee-7.1.4/apache-tomee-7.1.4-plume.tar.gz"
-    version = "7.1.4"
-
-    [[metadata.dependencies.licenses]]
-      type = "Apache-2.0"
-      uri = "https://www.apache.org/licenses/"
-
-  [[metadata.dependencies]]
-    cpes = ["cpe:2.3:a:apache:tomee-microprofile:8.0.16:*:*:*:*:*:*:*"]
-    id = "tomee-microprofile"
-    name = "Apache Tomee - Microprofile"
-    purl = "pkg:generic/apache-tomee@8.0.16"
-    sha256 = "109395e93e38b537720cea88bda830b6f412541a67917e33f4c17eddb230313d"
-    source = "https://archive.apache.org/dist/tomee/tomee-8.0.16/tomee-project-8.0.16-source-release.zip"
-    source-sha256 = "5b06c47f514a6af03ae043203e6984dc94d9001ac81f7e6367d76fdf8ff23793"
-    stacks = ["*"]
-    uri = "https://archive.apache.org/dist/tomee/tomee-8.0.16/apache-tomee-8.0.16-microprofile.tar.gz"
-    version = "8.0.16"
-
-    [[metadata.dependencies.licenses]]
-      type = "Apache-2.0"
-      uri = "https://www.apache.org/licenses/"
-
-  [[metadata.dependencies]]
-    cpes = ["cpe:2.3:a:apache:tomee-webprofile:8.0.16:*:*:*:*:*:*:*"]
-    id = "tomee-webprofile"
-    name = "Apache Tomee - Webprofile"
-    purl = "pkg:generic/apache-tomee@8.0.16"
-    sha256 = "f223bd9a6a3b7119a8b7f65c98de22f6db10fad5451f869eeb7ee34d2125adb2"
-    source = "https://archive.apache.org/dist/tomee/tomee-8.0.16/tomee-project-8.0.16-source-release.zip"
-    source-sha256 = "5b06c47f514a6af03ae043203e6984dc94d9001ac81f7e6367d76fdf8ff23793"
-    stacks = ["*"]
-    uri = "https://archive.apache.org/dist/tomee/tomee-8.0.16/apache-tomee-8.0.16-webprofile.tar.gz"
-    version = "8.0.16"
-
-    [[metadata.dependencies.licenses]]
-      type = "Apache-2.0"
-      uri = "https://www.apache.org/licenses/"
-
-  [[metadata.dependencies]]
-    cpes = ["cpe:2.3:a:apache:tomee-plus:8.0.16:*:*:*:*:*:*:*"]
-    id = "tomee-plus"
-    name = "Apache Tomee - Plus"
-    purl = "pkg:generic/apache-tomee@8.0.16"
-    sha256 = "842987d6319dc6a21d6690e39e5e006ab3972037ee65a71b8f0cc30f1e9552b3"
-    source = "https://archive.apache.org/dist/tomee/tomee-8.0.16/tomee-project-8.0.16-source-release.zip"
-    source-sha256 = "5b06c47f514a6af03ae043203e6984dc94d9001ac81f7e6367d76fdf8ff23793"
-    stacks = ["*"]
-    uri = "https://archive.apache.org/dist/tomee/tomee-8.0.16/apache-tomee-8.0.16-plus.tar.gz"
-    version = "8.0.16"
-
-    [[metadata.dependencies.licenses]]
-      type = "Apache-2.0"
-      uri = "https://www.apache.org/licenses/"
-
-  [[metadata.dependencies]]
-    cpes = ["cpe:2.3:a:apache:tomee-plume:8.0.16:*:*:*:*:*:*:*"]
-    id = "tomee-plume"
-    name = "Apache Tomee - Plume"
-    purl = "pkg:generic/apache-tomee@8.0.16"
-    sha256 = "40aae357bb6d6ab6212a91aa780a2d0957ac4b146f2138873577413726addffa"
-    source = "https://archive.apache.org/dist/tomee/tomee-8.0.16/tomee-project-8.0.16-source-release.zip"
-    source-sha256 = "5b06c47f514a6af03ae043203e6984dc94d9001ac81f7e6367d76fdf8ff23793"
-    stacks = ["*"]
-    uri = "https://archive.apache.org/dist/tomee/tomee-8.0.16/apache-tomee-8.0.16-plume.tar.gz"
-    version = "8.0.16"
-
-    [[metadata.dependencies.licenses]]
-      type = "Apache-2.0"
-      uri = "https://www.apache.org/licenses/"
-
-  [[metadata.dependencies]]
     cpes = ["cpe:2.3:a:apache:tomee-microprofile:9.0.0:*:*:*:*:*:*:*"]
     id = "tomee-microprofile"
     name = "Apache Tomee - Microprofile"
@@ -269,7 +141,63 @@ api = "0.7"
     [[metadata.dependencies.licenses]]
       type = "Apache-2.0"
       uri = "https://www.apache.org/licenses/"
+  
+  [[metadata.dependencies]]
+    cpes = ["cpe:2.3:a:apache:tomee-microprofile:10.1.1:*:*:*:*:*:*:*"]
+    id = "tomee-microprofile"
+    name = "Apache Tomee - Microprofile"
+    purl = "pkg:generic/apache-tomee@10.1.1"
+    sha256 = "4d0a6a0585c0088da3a65e8fdbd6c43b0988510282fac23fbf9754ffce2a037a"
+    stacks = ["*"]
+    uri = "https://archive.apache.org/dist/tomee/tomee-10.1.1/apache-tomee-10.1.1-microprofile.tar.gz"
+    version = "10.1.1"
 
+    [[metadata.dependencies.licenses]]
+      type = "Apache-2.0"
+      uri = "https://www.apache.org/licenses/"
+
+  [[metadata.dependencies]]
+    cpes = ["cpe:2.3:a:apache:tomee-webprofile:10.1.1:*:*:*:*:*:*:*"]
+    id = "tomee-webprofile"
+    name = "Apache Tomee - Webprofile"
+    purl = "pkg:generic/apache-tomee@10.1.1"
+    sha256 = "a2991ccb98019aa51c1680abcebd252685e4f0637c0ceae0b4426aebd8fd8953"
+    stacks = ["*"]
+    uri = "https://archive.apache.org/dist/tomee/tomee-10.1.1/apache-tomee-10.1.1-webprofile.tar.gz"
+    version = "10.1.1"
+
+    [[metadata.dependencies.licenses]]
+      type = "Apache-2.0"
+      uri = "https://www.apache.org/licenses/"
+
+  [[metadata.dependencies]]
+    cpes = ["cpe:2.3:a:apache:tomee-plus:10.1.1:*:*:*:*:*:*:*"]
+    id = "tomee-plus"
+    name = "Apache Tomee - Plus"
+    purl = "pkg:generic/apache-tomee@10.1.1"
+    sha256 = "5563cffd7777df4e30575d3e3a27cb964fac1b7c010209cb0e23153e49f6f68d"
+    stacks = ["*"]
+    uri = "https://archive.apache.org/dist/tomee/tomee-10.1.1/apache-tomee-10.1.1-plus.tar.gz"
+    version = "10.1.1"
+
+    [[metadata.dependencies.licenses]]
+      type = "Apache-2.0"
+      uri = "https://www.apache.org/licenses/"
+
+  [[metadata.dependencies]]
+    cpes = ["cpe:2.3:a:apache:tomee-plume:10.1.1:*:*:*:*:*:*:*"]
+    id = "tomee-plume"
+    name = "Apache Tomee - Plume"
+    purl = "pkg:generic/apache-tomee@10.1.1"
+    sha256 = "ca38ca6c711fff5eea5c655f786a76dc30286ea809c6f09ac5346e838818369e"
+    stacks = ["*"]
+    uri = "https://archive.apache.org/dist/tomee/tomee-10.1.1/apache-tomee-10.1.1-plume.tar.gz"
+    version = "10.1.1"
+
+    [[metadata.dependencies.licenses]]
+      type = "Apache-2.0"
+      uri = "https://www.apache.org/licenses/"
+  
   [[metadata.dependencies]]
     cpes = ["cpe:2.3:a:cloudfoundry:tomcat-access-logging-support:3.4.0:*:*:*:*:*:*:*"]
     id = "tomcat-access-logging-support"
