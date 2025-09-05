@@ -1,4 +1,4 @@
-name: Update Tomee 7 Plume
+name: Update Tomee 10 Webprofile
 "on":
     schedule:
         - cron: 0 5 * * 1-5
@@ -27,8 +27,8 @@ jobs:
             - id: dependency
               uses: docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
               with:
-                dist: plume
-                major: 7
+                dist: webprofile
+                major: 10
                 uri: https://archive.apache.org/dist/tomee
             - name: Update Buildpack Dependency
               id: buildpack
@@ -79,7 +79,7 @@ jobs:
                 ARCH: ""
                 CPE: ${{ steps.dependency.outputs.cpe }}
                 CPE_PATTERN: ""
-                ID: tomee-plume
+                ID: tomee-webprofile
                 PURL: ${{ steps.dependency.outputs.purl }}
                 PURL_PATTERN: ""
                 SHA256: ${{ steps.dependency.outputs.sha256 }}
@@ -87,18 +87,18 @@ jobs:
                 SOURCE_URI: ${{ steps.dependency.outputs.source }}
                 URI: ${{ steps.dependency.outputs.uri }}
                 VERSION: ${{ steps.dependency.outputs.version }}
-                VERSION_PATTERN: 7\.[\d]+\.[\d]+
+                VERSION_PATTERN: 10\.[\d]+\.[\d]+
             - uses: peter-evans/create-pull-request@v6
               with:
                 author: ${{ secrets.JAVA_GITHUB_USERNAME }} <${{ secrets.JAVA_GITHUB_USERNAME }}@users.noreply.github.com>
-                body: Bumps `Tomee 7 Plume` from `${{ steps.buildpack.outputs.old-version }}` to `${{ steps.buildpack.outputs.new-version }}`.
-                branch: update/buildpack/tomee-7-plume
+                body: Bumps `Tomee 10 Webprofile` from `${{ steps.buildpack.outputs.old-version }}` to `${{ steps.buildpack.outputs.new-version }}`.
+                branch: update/buildpack/tomee-10-webprofile
                 commit-message: |-
-                    Bump Tomee 7 Plume from ${{ steps.buildpack.outputs.old-version }} to ${{ steps.buildpack.outputs.new-version }}
+                    Bump Tomee 10 Webprofile from ${{ steps.buildpack.outputs.old-version }} to ${{ steps.buildpack.outputs.new-version }}
 
-                    Bumps Tomee 7 Plume from ${{ steps.buildpack.outputs.old-version }} to ${{ steps.buildpack.outputs.new-version }}.
+                    Bumps Tomee 10 Webprofile from ${{ steps.buildpack.outputs.old-version }} to ${{ steps.buildpack.outputs.new-version }}.
                 delete-branch: true
                 labels: ${{ steps.buildpack.outputs.version-label }}, type:dependency-upgrade
                 signoff: true
-                title: Bump Tomee 7 Plume from ${{ steps.buildpack.outputs.old-version }} to ${{ steps.buildpack.outputs.new-version }}
+                title: Bump Tomee 10 Webprofile from ${{ steps.buildpack.outputs.old-version }} to ${{ steps.buildpack.outputs.new-version }}
                 token: ${{ secrets.PAKETO_BOT_GITHUB_TOKEN }}
