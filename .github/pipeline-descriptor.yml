@@ -20,22 +20,6 @@ docker_credentials:
   password: ${{ secrets.PAKETO_BUILDPACKS_DOCKERHUB_PASSWORD }}
 
 dependencies:
-- name:            Tomee 7 Microprofile
-  id:              tomee-microprofile
-  version_pattern: "7\\.[\\d]+\\.[\\d]+"
-  uses:            docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
-  with:
-    uri: https://archive.apache.org/dist/tomee
-    dist: microprofile
-    major: 7
-- name:            Tomee 8 Microprofile
-  id:              tomee-microprofile
-  version_pattern: "8\\.[\\d]+\\.[\\d]+"
-  uses:            docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
-  with:
-    uri: https://archive.apache.org/dist/tomee
-    dist: microprofile
-    major: 8
 - name:            Tomee 9 Microprofile
   id:              tomee-microprofile
   version_pattern: "9\\.[\\d]+\\.[\\d]+?[-+]?[a-zA-Z0-9]+"
@@ -44,22 +28,14 @@ dependencies:
     uri: https://archive.apache.org/dist/tomee
     dist: microprofile
     major: 9
-- name:            Tomee 7 Webprofile
-  id:              tomee-webprofile
-  version_pattern: "7\\.[\\d]+\\.[\\d]+"
+- name:            Tomee 10 Microprofile
+  id:              tomee-microprofile
+  version_pattern: "10\\.[\\d]+\\.[\\d]+"
   uses:            docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
   with:
     uri: https://archive.apache.org/dist/tomee
-    dist: webprofile
-    major: 7
-- name:            Tomee 8 Webprofile
-  id:              tomee-webprofile
-  version_pattern: "8\\.[\\d]+\\.[\\d]+"
-  uses:            docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
-  with:
-    uri: https://archive.apache.org/dist/tomee
-    dist: webprofile
-    major: 8
+    dist: microprofile
+    major: 10
 - name:            Tomee 9 Webprofile
   id:              tomee-webprofile
   version_pattern: "9\\.[\\d]+\\.[\\d]+?[-+]?[a-zA-Z0-9]+"
@@ -68,22 +44,14 @@ dependencies:
     uri: https://archive.apache.org/dist/tomee
     dist: webprofile
     major: 9
-- name:            Tomee 7 Plus
-  id:              tomee-plus
-  version_pattern: "7\\.[\\d]+\\.[\\d]+"
+- name:            Tomee 10 Webprofile
+  id:              tomee-webprofile
+  version_pattern: "10\\.[\\d]+\\.[\\d]+"
   uses:            docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
   with:
     uri: https://archive.apache.org/dist/tomee
-    dist: plus
-    major: 7
-- name:            Tomee 8 Plus
-  id:              tomee-plus
-  version_pattern: "8\\.[\\d]+\\.[\\d]+"
-  uses:            docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
-  with:
-    uri: https://archive.apache.org/dist/tomee
-    dist: plus
-    major: 8
+    dist: webprofile
+    major: 10
 - name:            Tomee 9 Plus
   id:              tomee-plus
   version_pattern: "9\\.[\\d]+\\.[\\d]+?[-+]?[a-zA-Z0-9]+"
@@ -92,22 +60,14 @@ dependencies:
     uri: https://archive.apache.org/dist/tomee
     dist: plus
     major: 9
-- name:            Tomee 7 Plume
-  id:              tomee-plume
-  version_pattern: "7\\.[\\d]+\\.[\\d]+"
+- name:            Tomee 10 Plus
+  id:              tomee-plus
+  version_pattern: "10\\.[\\d]+\\.[\\d]+"
   uses:            docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
   with:
     uri: https://archive.apache.org/dist/tomee
-    dist: plume
-    major: 7
-- name:            Tomee 8 Plume
-  id:              tomee-plume
-  version_pattern: "8\\.[\\d]+\\.[\\d]+"
-  uses:            docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
-  with:
-    uri: https://archive.apache.org/dist/tomee
-    dist: plume
-    major: 8
+    dist: plus
+    major: 10
 - name:            Tomee 9 Plume
   id:              tomee-plume
   version_pattern: "9\\.[\\d]+\\.[\\d]+?[-+]?[a-zA-Z0-9]+"
@@ -116,6 +76,14 @@ dependencies:
     uri: https://archive.apache.org/dist/tomee
     dist: plume
     major: 9
+- name:            Tomee 10 Plume
+  id:              tomee-plume
+  version_pattern: "10\\.[\\d]+\\.[\\d]+"
+  uses:            docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
+  with:
+    uri: https://archive.apache.org/dist/tomee
+    dist: plume
+    major: 10
 
 - id:   tomcat-access-logging-support
   uses: docker://ghcr.io/paketo-buildpacks/actions/maven-dependency:main
