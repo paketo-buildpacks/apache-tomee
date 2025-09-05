@@ -22,7 +22,7 @@ docker_credentials:
 dependencies:
 - name:            Tomee 9 Microprofile
   id:              tomee-microprofile
-  version_pattern: "9\\.[\\d]+\\.[\\d]+?[-+]?[a-zA-Z0-9]+"
+  version_pattern: "9\\.[\\d]+\\.[\\d]+"
   uses:            docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
   with:
     uri: https://archive.apache.org/dist/tomee
@@ -38,7 +38,7 @@ dependencies:
     major: 10
 - name:            Tomee 9 Webprofile
   id:              tomee-webprofile
-  version_pattern: "9\\.[\\d]+\\.[\\d]+?[-+]?[a-zA-Z0-9]+"
+  version_pattern: "9\\.[\\d]+\\.[\\d]+"
   uses:            docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
   with:
     uri: https://archive.apache.org/dist/tomee
@@ -54,7 +54,7 @@ dependencies:
     major: 10
 - name:            Tomee 9 Plus
   id:              tomee-plus
-  version_pattern: "9\\.[\\d]+\\.[\\d]+?[-+]?[a-zA-Z0-9]+"
+  version_pattern: "9\\.[\\d]+\\.[\\d]+"
   uses:            docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
   with:
     uri: https://archive.apache.org/dist/tomee
@@ -70,7 +70,7 @@ dependencies:
     major: 10
 - name:            Tomee 9 Plume
   id:              tomee-plume
-  version_pattern: "9\\.[\\d]+\\.[\\d]+?[-+]?[a-zA-Z0-9]+"
+  version_pattern: "9\\.[\\d]+\\.[\\d]+"
   uses:            docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
   with:
     uri: https://archive.apache.org/dist/tomee
