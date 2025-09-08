@@ -29,7 +29,7 @@ jobs:
               with:
                 dist: webprofile
                 major: 10
-                uri: https://archive.apache.org/dist/tomee
+                uri: https://downloads.apache.org/tomee
             - name: Update Buildpack Dependency
               id: buildpack
               run: |
