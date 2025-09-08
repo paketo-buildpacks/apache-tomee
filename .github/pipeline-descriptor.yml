@@ -33,7 +33,7 @@ dependencies:
   version_pattern: "10\\.[\\d]+\\.[\\d]+"
   uses:            docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
   with:
-    uri: https://archive.apache.org/dist/tomee
+    uri: https://downloads.apache.org/tomee
     dist: microprofile
     major: 10
 - name:            Tomee 9 Webprofile
@@ -49,7 +49,7 @@ dependencies:
   version_pattern: "10\\.[\\d]+\\.[\\d]+"
   uses:            docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
   with:
-    uri: https://archive.apache.org/dist/tomee
+    uri: https://downloads.apache.org/tomee
     dist: webprofile
     major: 10
 - name:            Tomee 9 Plus
@@ -65,7 +65,7 @@ dependencies:
   version_pattern: "10\\.[\\d]+\\.[\\d]+"
   uses:            docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
   with:
-    uri: https://archive.apache.org/dist/tomee
+    uri: https://downloads.apache.org/tomee
     dist: plus
     major: 10
 - name:            Tomee 9 Plume
@@ -81,7 +81,7 @@ dependencies:
   version_pattern: "10\\.[\\d]+\\.[\\d]+"
   uses:            docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
   with:
-    uri: https://archive.apache.org/dist/tomee
+    uri: https://downloads.apache.org/tomee
     dist: plume
     major: 10
 
