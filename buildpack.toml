@@ -168,10 +168,10 @@ api = "0.7"
     name = "Apache Tomee - Webprofile"
     purl = "pkg:generic/apache-tomee@10.1.1"
     sha256 = "a2991ccb98019aa51c1680abcebd252685e4f0637c0ceae0b4426aebd8fd8953"
-    source = "https://archive.apache.org/dist/tomee/tomee-10.1.1/tomee-project-10.1.1-source-release.zip"
+    source = "https://downloads.apache.org/tomee/tomee-10.1.1/tomee-project-10.1.1-source-release.zip"
     source-sha256 = "2e7ef3341319e25b3b267d1ba9bdf8e886d8791bf5a27e612d7d5e9c7d52d363"
     stacks = ["*"]
-    uri = "https://archive.apache.org/dist/tomee/tomee-10.1.1/apache-tomee-10.1.1-webprofile.tar.gz"
+    uri = "https://downloads.apache.org/tomee/tomee-10.1.1/apache-tomee-10.1.1-webprofile.tar.gz"
     version = "10.1.1"
 
     [[metadata.dependencies.licenses]]
@@ -184,10 +184,10 @@ api = "0.7"
     name = "Apache Tomee - Plus"
     purl = "pkg:generic/apache-tomee@10.1.1"
     sha256 = "5563cffd7777df4e30575d3e3a27cb964fac1b7c010209cb0e23153e49f6f68d"
-    source = "https://archive.apache.org/dist/tomee/tomee-10.1.1/tomee-project-10.1.1-source-release.zip"
+    source = "https://downloads.apache.org/tomee/tomee-10.1.1/tomee-project-10.1.1-source-release.zip"
     source-sha256 = "2e7ef3341319e25b3b267d1ba9bdf8e886d8791bf5a27e612d7d5e9c7d52d363"
     stacks = ["*"]
-    uri = "https://archive.apache.org/dist/tomee/tomee-10.1.1/apache-tomee-10.1.1-plus.tar.gz"
+    uri = "https://downloads.apache.org/tomee/tomee-10.1.1/apache-tomee-10.1.1-plus.tar.gz"
     version = "10.1.1"
 
     [[metadata.dependencies.licenses]]
@@ -200,10 +200,10 @@ api = "0.7"
     name = "Apache Tomee - Plume"
     purl = "pkg:generic/apache-tomee@10.1.1"
     sha256 = "ca38ca6c711fff5eea5c655f786a76dc30286ea809c6f09ac5346e838818369e"
-    source = "https://archive.apache.org/dist/tomee/tomee-10.1.1/tomee-project-10.1.1-source-release.zip"
+    source = "https://downloads.apache.org/tomee/tomee-10.1.1/tomee-project-10.1.1-source-release.zip"
     source-sha256 = "2e7ef3341319e25b3b267d1ba9bdf8e886d8791bf5a27e612d7d5e9c7d52d363"
     stacks = ["*"]
-    uri = "https://archive.apache.org/dist/tomee/tomee-10.1.1/apache-tomee-10.1.1-plume.tar.gz"
+    uri = "https://downloads.apache.org/tomee/tomee-10.1.1/apache-tomee-10.1.1-plume.tar.gz"
     version = "10.1.1"
 
     [[metadata.dependencies.licenses]]
