@@ -199,16 +199,16 @@ api = "0.7"
       uri = "https://www.apache.org/licenses/"
 
   [[metadata.dependencies]]
-    cpes = ["cpe:2.3:a:apache:tomee-plume:10.1.1:*:*:*:*:*:*:*"]
+    cpes = ["cpe:2.3:a:apache:tomee-plume:10.1.2:*:*:*:*:*:*:*"]
     id = "tomee-plume"
     name = "Apache Tomee - Plume"
-    purl = "pkg:generic/apache-tomee@10.1.1"
-    sha256 = "ca38ca6c711fff5eea5c655f786a76dc30286ea809c6f09ac5346e838818369e"
-    source = "https://downloads.apache.org/tomee/tomee-10.1.1/tomee-project-10.1.1-source-release.zip"
-    source-sha256 = "2e7ef3341319e25b3b267d1ba9bdf8e886d8791bf5a27e612d7d5e9c7d52d363"
+    purl = "pkg:generic/apache-tomee@10.1.2"
+    sha256 = "58066f8da82c4b9194a579dd31f55e0ba7bd08fe073fe1defd86f60b89c41b4c"
+    source = "https://downloads.apache.org/tomee/tomee-10.1.2/tomee-project-10.1.2-source-release.zip"
+    source-sha256 = "c08beb5a5acb312cb3ce51f4ff9ef5364fb29a45d78ff878dec3b50012b81ba1"
     stacks = ["*"]
-    uri = "https://downloads.apache.org/tomee/tomee-10.1.1/apache-tomee-10.1.1-plume.tar.gz"
-    version = "10.1.1"
+    uri = "https://downloads.apache.org/tomee/tomee-10.1.2/apache-tomee-10.1.2-plume.tar.gz"
+    version = "10.1.2"
 
     [[metadata.dependencies.licenses]]
       type = "Apache-2.0"
