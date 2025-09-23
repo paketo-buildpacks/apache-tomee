@@ -151,16 +151,16 @@ api = "0.7"
       uri = "https://www.apache.org/licenses/"
 
   [[metadata.dependencies]]
-    cpes = ["cpe:2.3:a:apache:tomee-microprofile:10.1.1:*:*:*:*:*:*:*"]
+    cpes = ["cpe:2.3:a:apache:tomee-microprofile:10.1.2:*:*:*:*:*:*:*"]
     id = "tomee-microprofile"
     name = "Apache Tomee - Microprofile"
-    purl = "pkg:generic/apache-tomee@10.1.1"
-    sha256 = "4d0a6a0585c0088da3a65e8fdbd6c43b0988510282fac23fbf9754ffce2a037a"
-    source = "https://downloads.apache.org/tomee/tomee-10.1.1/tomee-project-10.1.1-source-release.zip"
-    source-sha256 = "2e7ef3341319e25b3b267d1ba9bdf8e886d8791bf5a27e612d7d5e9c7d52d363"
+    purl = "pkg:generic/apache-tomee@10.1.2"
+    sha256 = "c62a3e26c01d34df94eec1b49924f5c5c35fd01766354bab792a49d5300f82e9"
+    source = "https://downloads.apache.org/tomee/tomee-10.1.2/tomee-project-10.1.2-source-release.zip"
+    source-sha256 = "c08beb5a5acb312cb3ce51f4ff9ef5364fb29a45d78ff878dec3b50012b81ba1"
     stacks = ["*"]
-    uri = "https://downloads.apache.org/tomee/tomee-10.1.1/apache-tomee-10.1.1-microprofile.tar.gz"
-    version = "10.1.1"
+    uri = "https://downloads.apache.org/tomee/tomee-10.1.2/apache-tomee-10.1.2-microprofile.tar.gz"
+    version = "10.1.2"
 
     [[metadata.dependencies.licenses]]
       type = "Apache-2.0"
