@@ -35,20 +35,20 @@ When this buildpack runs on the [Tiny stack](https://paketo.io/docs/concepts/sta
 [lgs]: https://github.com/cloudfoundry/java-buildpack-support/tree/master/tomcat-logging-support
 
 ## Configuration
-| Environment Variable | Description
-| -------------------- | -----------
-| `$BP_JAVA_APP_SERVER` | The application server to use. It defaults to the empty string, which allow the first Java application server in the buildpack order group to run. It can be set to `tomee` to force Tomee to be used. See the documentation for other Java application server buildpacks for other acceptable values. |
-| `$BP_TOMEE_CONTEXT_PATH` | The context path to mount the application at.  Defaults to empty (`ROOT`).
-| `$BP_TOMEE_ENV_PROPERTY_SOURCE_DISABLED` | When true the buildpack will not configure `org.apache.tomcat.util.digester.EnvironmentPropertySource`. This configuration option is added to support loading configuration from environment variables and referencing them in Tomcat configuration files.
-| `$BP_TOMEE_EXT_CONF_SHA256` | The SHA256 hash of the external configuration package
-| `$BP_TOMEE_EXT_CONF_STRIP` | The number of directory levels to strip from the external configuration package.  Defaults to `0`.
-| `$BP_TOMEE_EXT_CONF_URI` | The download URI of the external configuration package
-| `$BP_TOMEE_EXT_CONF_VERSION` | The version of the external configuration package
-| `$BP_TOMEE_VERSION` |  Configure a specific Tomee version.  This value must _exactly_ match a version available in the buildpack so typically it would configured to a wildcard such as `9.*`.
-| `$BP_TOMEE_DISTRIBUTION` |  Configure a specific Tomee distribution.  This value must be one of `microprofile`, `webprofile`, `plus` or `plume`. Defaults to `microprofile`.
-| `$BPL_TOMEE_ACCESS_LOGGING_ENABLED` | Whether access logging should be activated.  Defaults to inactive.
-| `BPI_TOMCAT_ADDITIONAL_JARS`              | This should only be used in other buildpacks to include a `jar` to the tomcat classpath. Several `jars` must be separated by `:`. |
-| `BPI_TOMCAT_ADDITIONAL_COMMON_JARS`       | This should be used by other buildpacks to include additional locations to be class loaded by the tomcat common classloader. For example a buildpack might contribute resources in its dedicated layer and add the location with this variable to be classloaded additionally by Tomcat. Both folder paths as well as single `jar` file paths can be specified. |
+| Environment Variable                     | Description                                                                                                                                                                                                                                                                                                                                                     |
+| ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `$BP_JAVA_APP_SERVER`                    | The application server to use. It defaults to the empty string, which allow the first Java application server in the buildpack order group to run. It can be set to `tomee` to force Tomee to be used. See the documentation for other Java application server buildpacks for other acceptable values.                                                          |
+| `$BP_TOMEE_CONTEXT_PATH`                 | The context path to mount the application at.  Defaults to empty (`ROOT`).                                                                                                                                                                                                                                                                                      |
+| `$BP_TOMEE_ENV_PROPERTY_SOURCE_DISABLED` | When true the buildpack will not configure `org.apache.tomcat.util.digester.EnvironmentPropertySource`. This configuration option is added to support loading configuration from environment variables and referencing them in Tomcat configuration files.                                                                                                      |
+| `$BP_TOMEE_EXT_CONF_SHA256`              | The SHA256 hash of the external configuration package                                                                                                                                                                                                                                                                                                           |
+| `$BP_TOMEE_EXT_CONF_STRIP`               | The number of directory levels to strip from the external configuration package.  Defaults to `0`.                                                                                                                                                                                                                                                              |
+| `$BP_TOMEE_EXT_CONF_URI`                 | The download URI of the external configuration package                                                                                                                                                                                                                                                                                                          |
+| `$BP_TOMEE_EXT_CONF_VERSION`             | The version of the external configuration package                                                                                                                                                                                                                                                                                                               |
+| `$BP_TOMEE_VERSION`                      | Configure a specific Tomee version.  This value must _exactly_ match a version available in the buildpack so typically it would configured to a wildcard such as `10.*`.                                                                                                                                                                                        |
+| `$BP_TOMEE_DISTRIBUTION`                 | Configure a specific Tomee distribution.  This value must be one of `microprofile`, `webprofile`, `plus` or `plume`. Defaults to `microprofile`.                                                                                                                                                                                                                |
+| `$BPL_TOMEE_ACCESS_LOGGING_ENABLED`      | Whether access logging should be activated.  Defaults to inactive.                                                                                                                                                                                                                                                                                              |
+| `BPI_TOMCAT_ADDITIONAL_JARS`             | This should only be used in other buildpacks to include a `jar` to the tomcat classpath. Several `jars` must be separated by `:`.                                                                                                                                                                                                                               |
+| `BPI_TOMCAT_ADDITIONAL_COMMON_JARS`      | This should be used by other buildpacks to include additional locations to be class loaded by the tomcat common classloader. For example a buildpack might contribute resources in its dedicated layer and add the location with this variable to be classloaded additionally by Tomcat. Both folder paths as well as single `jar` file paths can be specified. |
 
 ### External Configuration Package
 The artifacts that the repository provides must be in TAR format and must follow the Tomee archive structure:
@@ -63,7 +63,7 @@ The artifacts that the repository provides must be in TAR format and must follow
 ```
 
 ### Environment Property Source
-When the Environment Property Source is configured, configuration for Tomcats [configuration files](https://tomcat.apache.org/tomcat-9.0-doc/config/systemprops.html) can be loaded
+When the Environment Property Source is configured, configuration for Tomcats [configuration files](https://tomcat.apache.org/tomcat-11.0-doc/config/systemprops.html) can be loaded
 from environment variables. To use this feature, the name of the environment variable must match the name of the property.
 
 ## Bindings
@@ -93,9 +93,9 @@ func (s) Contribute(layer libcnb.Layer) (libcnb.Layer, error) {
 ```
 
 ### Type: `dependency-mapping`
-|Key                   | Value   | Description
-|----------------------|---------|------------
-|`<dependency-digest>` | `<uri>` | If needed, the buildpack will fetch the dependency with digest `<dependency-digest>` from `<uri>`
+| Key                   | Value   | Description                                                                                       |
+| --------------------- | ------- | ------------------------------------------------------------------------------------------------- |
+| `<dependency-digest>` | `<uri>` | If needed, the buildpack will fetch the dependency with digest `<dependency-digest>` from `<uri>` |
 
 ## License
 This buildpack is released under version 2.0 of the [Apache License][a].

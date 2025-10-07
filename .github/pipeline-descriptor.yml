@@ -20,14 +20,6 @@ docker_credentials:
   password: ${{ secrets.PAKETO_BUILDPACKS_DOCKERHUB_PASSWORD }}
 
 dependencies:
-- name:            Tomee 9 Microprofile
-  id:              tomee-microprofile
-  version_pattern: "9\\.[\\d]+\\.[\\d]+"
-  uses:            docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
-  with:
-    uri: https://archive.apache.org/dist/tomee
-    dist: microprofile
-    major: 9
 - name:            Tomee 10 Microprofile
   id:              tomee-microprofile
   version_pattern: "10\\.[\\d]+\\.[\\d]+"
@@ -36,14 +28,6 @@ dependencies:
     uri: https://downloads.apache.org/tomee
     dist: microprofile
     major: 10
-- name:            Tomee 9 Webprofile
-  id:              tomee-webprofile
-  version_pattern: "9\\.[\\d]+\\.[\\d]+"
-  uses:            docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
-  with:
-    uri: https://archive.apache.org/dist/tomee
-    dist: webprofile
-    major: 9
 - name:            Tomee 10 Webprofile
   id:              tomee-webprofile
   version_pattern: "10\\.[\\d]+\\.[\\d]+"
@@ -52,14 +36,6 @@ dependencies:
     uri: https://downloads.apache.org/tomee
     dist: webprofile
     major: 10
-- name:            Tomee 9 Plus
-  id:              tomee-plus
-  version_pattern: "9\\.[\\d]+\\.[\\d]+"
-  uses:            docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
-  with:
-    uri: https://archive.apache.org/dist/tomee
-    dist: plus
-    major: 9
 - name:            Tomee 10 Plus
   id:              tomee-plus
   version_pattern: "10\\.[\\d]+\\.[\\d]+"
@@ -68,14 +44,6 @@ dependencies:
     uri: https://downloads.apache.org/tomee
     dist: plus
     major: 10
-- name:            Tomee 9 Plume
-  id:              tomee-plume
-  version_pattern: "9\\.[\\d]+\\.[\\d]+"
-  uses:            docker://ghcr.io/paketo-buildpacks/actions/tomee-dependency:main
-  with:
-    uri: https://archive.apache.org/dist/tomee
-    dist: plume
-    major: 9
 - name:            Tomee 10 Plume
   id:              tomee-plume
   version_pattern: "10\\.[\\d]+\\.[\\d]+"
