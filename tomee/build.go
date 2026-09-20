@@ -98,20 +98,20 @@ func (b Build) Build(context libcnb.BuildContext) (libcnb.BuildResult, error) {
 		return libcnb.BuildResult{}, fmt.Errorf("unable to find dependency\n%w", err)
 	}
 
-	var be libcnb.BOMEntry
+	var be libcnb.BOMEntry //nolint:staticcheck // hold off on the BOM migration for now
 	home, be := NewHome(tomeeDep, dc)
 	home.Logger = b.Logger
 	result.Layers = append(result.Layers, home)
 	if be.Name != "" {
-		result.BOM.Entries = append(result.BOM.Entries, be)
+		result.BOM.Entries = append(result.BOM.Entries, be) //nolint:staticcheck // hold off on the BOM migration for now
 	}
 
 	b.Logger.Info("Adding helper layer...")
-	h, be := libpak.NewHelperLayer(context.Buildpack, "access-logging-support")
+	h, be := libpak.NewHelperLayer(context.Buildpack, "access-logging-support") //nolint:staticcheck // hold off on the BOM migration for now
 	h.Logger = b.Logger
 	result.Layers = append(result.Layers, h)
 	if be.Name != "" {
-		result.BOM.Entries = append(result.BOM.Entries, be)
+		result.BOM.Entries = append(result.BOM.Entries, be) //nolint:staticcheck // hold off on the BOM migration for now
 	}
 
 	accessLoggingDependency, err := dr.Resolve("tomcat-access-logging-support", "")
@@ -151,7 +151,7 @@ func (b Build) Build(context libcnb.BuildContext) (libcnb.BuildResult, error) {
 	base.Logger = b.Logger
 	result.Layers = append(result.Layers, base)
 	if bomEntries != nil {
-		result.BOM.Entries = append(result.BOM.Entries, bomEntries...)
+		result.BOM.Entries = append(result.BOM.Entries, bomEntries...) //nolint:staticcheck // hold off on the BOM migration for now
 	}
 
 	command := "sh"

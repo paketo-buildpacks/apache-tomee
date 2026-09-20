@@ -58,7 +58,7 @@ func NewBase(
 	lifecycleDependency libpak.BuildpackDependency,
 	loggingDependency libpak.BuildpackDependency,
 	cache libpak.DependencyCache,
-) (Base, []libcnb.BOMEntry) {
+) (Base, []libcnb.BOMEntry) { //nolint:staticcheck // hold off on the BOM migration for now
 
 	dependencies := []libpak.BuildpackDependency{accessLoggingDependency, lifecycleDependency, loggingDependency}
 	if externalConfigurationDependency != nil {
@@ -83,26 +83,26 @@ func NewBase(
 		LoggingDependency:   loggingDependency,
 	}
 
-	var bomEntries []libcnb.BOMEntry
-	var entry libcnb.BOMEntry
+	var bomEntries []libcnb.BOMEntry //nolint:staticcheck // hold off on the BOM migration for now
+	var entry libcnb.BOMEntry        //nolint:staticcheck // hold off on the BOM migration for now
 	if accessLoggingDependency.PURL == "" && len(accessLoggingDependency.CPEs) == 0 {
-		entry = accessLoggingDependency.AsBOMEntry()
+		entry = accessLoggingDependency.AsBOMEntry() //nolint:staticcheck // hold off on the BOM migration for now
 		entry.Metadata["layer"] = b.Name()
 		bomEntries = append(bomEntries, entry)
 	}
 	if lifecycleDependency.PURL == "" && len(lifecycleDependency.CPEs) == 0 {
-		entry = lifecycleDependency.AsBOMEntry()
+		entry = lifecycleDependency.AsBOMEntry() //nolint:staticcheck // hold off on the BOM migration for now
 		entry.Metadata["layer"] = b.Name()
 		bomEntries = append(bomEntries, entry)
 	}
 	if loggingDependency.PURL == "" && len(loggingDependency.CPEs) == 0 {
-		entry = loggingDependency.AsBOMEntry()
+		entry = loggingDependency.AsBOMEntry() //nolint:staticcheck // hold off on the BOM migration for now
 		entry.Metadata["layer"] = b.Name()
 		bomEntries = append(bomEntries, entry)
 	}
 	if externalConfigurationDependency != nil {
 		if externalConfigurationDependency.PURL == "" && len(externalConfigurationDependency.CPEs) == 0 {
-			entry = externalConfigurationDependency.AsBOMEntry()
+			entry = externalConfigurationDependency.AsBOMEntry() //nolint:staticcheck // hold off on the BOM migration for now
 			entry.Metadata["layer"] = b.Name()
 			bomEntries = append(bomEntries, entry)
 		}
@@ -204,7 +204,7 @@ func (b Base) ContributeAccessLogging(layer libcnb.Layer) error {
 	if err != nil {
 		return fmt.Errorf("unable to get dependency %s\n%w", b.AccessLoggingDependency.ID, err)
 	}
-	defer artifact.Close()
+	defer func() { _ = artifact.Close() }()
 
 	b.Logger.Bodyf("Copying to %s/lib", layer.Path)
 
@@ -230,7 +230,7 @@ func (b Base) ContributeConfiguration(layer libcnb.Layer) error {
 	if err != nil {
 		return fmt.Errorf("unable to open %s\n%w", file, err)
 	}
-	defer in.Close()
+	defer func() { _ = in.Close() }()
 
 	file = filepath.Join(layer.Path, "conf", "context.xml")
 	if err := sherpa.CopyFile(in, file); err != nil {
@@ -243,7 +243,7 @@ func (b Base) ContributeConfiguration(layer libcnb.Layer) error {
 	if err != nil {
 		return fmt.Errorf("unable to open %s\n%w", file, err)
 	}
-	defer in.Close()
+	defer func() { _ = in.Close() }()
 
 	file = filepath.Join(layer.Path, "conf", "logging.properties")
 	if err := sherpa.CopyFile(in, file); err != nil {
@@ -256,7 +256,7 @@ func (b Base) ContributeConfiguration(layer libcnb.Layer) error {
 	if err != nil {
 		return fmt.Errorf("unable to open %s\n%w", file, err)
 	}
-	defer in.Close()
+	defer func() { _ = in.Close() }()
 
 	file = filepath.Join(layer.Path, "conf", "server.xml")
 	if err := sherpa.CopyFile(in, file); err != nil {
@@ -269,7 +269,7 @@ func (b Base) ContributeConfiguration(layer libcnb.Layer) error {
 	if err != nil {
 		return fmt.Errorf("unable to open %s\n%w", file, err)
 	}
-	defer in.Close()
+	defer func() { _ = in.Close() }()
 
 	file = filepath.Join(layer.Path, "conf", "web.xml")
 	if err := sherpa.CopyFile(in, file); err != nil {
@@ -282,7 +282,7 @@ func (b Base) ContributeConfiguration(layer libcnb.Layer) error {
 	if err != nil {
 		return fmt.Errorf("unable to open %s\n%w", file, err)
 	}
-	defer in.Close()
+	defer func() { _ = in.Close() }()
 
 	file = filepath.Join(layer.Path, "conf", "tomee.xml")
 	if err := sherpa.CopyFile(in, file); err != nil {
@@ -295,7 +295,7 @@ func (b Base) ContributeConfiguration(layer libcnb.Layer) error {
 	if err != nil {
 		return fmt.Errorf("unable to open %s\n%w", file, err)
 	}
-	defer in.Close()
+	defer func() { _ = in.Close() }()
 
 	file = filepath.Join(layer.Path, "conf", "openejb.xml")
 	if err := sherpa.CopyFile(in, file); err != nil {
@@ -312,7 +312,7 @@ func (b Base) ContributeExternalConfiguration(layer libcnb.Layer) error {
 	if err != nil {
 		return fmt.Errorf("unable to get dependency %s\n%w", b.ExternalConfigurationDependency.ID, err)
 	}
-	defer artifact.Close()
+	defer func() { _ = artifact.Close() }()
 
 	b.Logger.Bodyf("Expanding to %s", layer.Path)
 
@@ -337,7 +337,7 @@ func (b Base) ContributeLifecycle(layer libcnb.Layer) error {
 	if err != nil {
 		return fmt.Errorf("unable to get dependency %s\n%w", b.LifecycleDependency.ID, err)
 	}
-	defer artifact.Close()
+	defer func() { _ = artifact.Close() }()
 
 	b.Logger.Bodyf("Copying to %s/lib", layer.Path)
 
@@ -356,7 +356,7 @@ func (b Base) ContributeLogging(layer libcnb.Layer) error {
 	if err != nil {
 		return fmt.Errorf("unable to get dependency %s\n%w", b.LoggingDependency.ID, err)
 	}
-	defer artifact.Close()
+	defer func() { _ = artifact.Close() }()
 
 	b.Logger.Bodyf("Copying to %s/bin", layer.Path)
 
@@ -402,7 +402,7 @@ func (b Base) ContributeCatalinaProps(layer libcnb.Layer) error {
 		if err != nil {
 			return fmt.Errorf("unable to open %s\n%w", homeProps, err)
 		}
-		defer in.Close()
+		defer func() { _ = in.Close() }()
 
 		b.Logger.Bodyf("Copying catalina.properties to %s/conf", layer.Path)
 		if err := sherpa.CopyFile(in, baseProps); err != nil {
