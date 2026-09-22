@@ -67,14 +67,13 @@ func testBase(t *testing.T, context spec.G, it spec.S) {
 		Expect(os.WriteFile(filepath.Join(ctx.Buildpack.Path, "resources", "openejb.xml"), []byte{}, 0644)).
 			To(Succeed())
 
-		Expect(os.Setenv("BP_TOMEE_DISTRIBUTION", "microprofile")).To(Succeed())
+		t.Setenv("BP_TOMEE_DISTRIBUTION", "microprofile")
 	})
 
 	it.After(func() {
 		Expect(os.RemoveAll(ctx.Application.Path)).To(Succeed())
 		Expect(os.RemoveAll(ctx.Buildpack.Path)).To(Succeed())
 		Expect(os.RemoveAll(ctx.Layers.Path)).To(Succeed())
-		Expect(os.Unsetenv("BP_TOMEE_DISTRIBUTION")).To(Succeed())
 	})
 
 	it("contributes catalina base", func() {
@@ -194,11 +193,7 @@ func testBase(t *testing.T, context spec.G, it spec.S) {
 
 	context("$BP_TOMEE_EXT_CONF_STRIP", func() {
 		it.Before(func() {
-			Expect(os.Setenv("BP_TOMEE_EXT_CONF_STRIP", "1")).To(Succeed())
-		})
-
-		it.After(func() {
-			Expect(os.Unsetenv("BP_TOMEE_EXT_CONF_STRIP")).To(Succeed())
+			t.Setenv("BP_TOMEE_EXT_CONF_STRIP", "1")
 		})
 
 		it("contributes custom configuration with directory", func() {

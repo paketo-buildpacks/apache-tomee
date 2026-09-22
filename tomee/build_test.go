@@ -31,6 +31,7 @@ import (
 	"github.com/paketo-buildpacks/apache-tomee/tomee"
 )
 
+//nolint:staticcheck // hold off on the BOM migration for now
 func testBuild(t *testing.T, context spec.G, it spec.S) {
 	var (
 		Expect      = NewWithT(t).Expect
@@ -49,14 +50,13 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		sbomScanner = mocks.SBOMScanner{}
 		sbomScanner.On("ScanLaunch", ctx.Application.Path, libcnb.SyftJSON, libcnb.CycloneDXJSON).Return(nil)
 
-		Expect(os.Setenv("BP_TOMEE_DISTRIBUTION", "microprofile")).To(Succeed())
+		t.Setenv("BP_TOMEE_DISTRIBUTION", "microprofile")
 
 		t.Setenv("BP_ARCH", "amd64")
 	})
 
 	it.After(func() {
 		Expect(os.RemoveAll(ctx.Application.Path)).To(Succeed())
-		Expect(os.Unsetenv("BP_TOMEE_DISTRIBUTION")).To(Succeed())
 	})
 
 	it("does not contribute Tomee if no WEB-INF", func() {
@@ -263,13 +263,8 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 
 	context("$BP_TOMEE_VERSION", func() {
 		it.Before(func() {
-			Expect(os.Setenv("BP_TOMEE_VERSION", "1.1.1")).To(Succeed())
-			Expect(os.Setenv("BP_TOMEE_DISTRIBUTION", "microprofile")).To(Succeed())
-		})
-
-		it.After(func() {
-			Expect(os.Unsetenv("BP_TOMEE_VERSION")).To(Succeed())
-			Expect(os.Unsetenv("BP_TOMEE_DISTRIBUTION")).To(Succeed())
+			t.Setenv("BP_TOMEE_VERSION", "1.1.1")
+			t.Setenv("BP_TOMEE_DISTRIBUTION", "microprofile")
 		})
 
 		it("selects version based on $BP_TOMEE_VERSION & $BP_TOMEE_DISTRIBUTION", func() {
@@ -316,17 +311,10 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 
 	context("$BP_TOMEE_EXT_CONF_URI", func() {
 		it.Before(func() {
-			Expect(os.Setenv("BP_TOMEE_EXT_CONF_SHA256", "test-sha256")).To(Succeed())
-			Expect(os.Setenv("BP_TOMEE_EXT_CONF_URI", "test-uri")).To(Succeed())
-			Expect(os.Setenv("BP_TOMEE_EXT_CONF_VERSION", "test-version")).To(Succeed())
-			Expect(os.Setenv("BP_TOMEE_DISTRIBUTION", "microprofile")).To(Succeed())
-		})
-
-		it.After(func() {
-			Expect(os.Unsetenv("BP_TOMEE_EXT_CONF_SHA256")).To(Succeed())
-			Expect(os.Unsetenv("BP_TOMEE_EXT_CONF_URI")).To(Succeed())
-			Expect(os.Unsetenv("BP_TOMEE_EXT_CONF_VERSION")).To(Succeed())
-			Expect(os.Unsetenv("BP_TOMEE_DISTRIBUTION")).To(Succeed())
+			t.Setenv("BP_TOMEE_EXT_CONF_SHA256", "test-sha256")
+			t.Setenv("BP_TOMEE_EXT_CONF_URI", "test-uri")
+			t.Setenv("BP_TOMEE_EXT_CONF_VERSION", "test-version")
+			t.Setenv("BP_TOMEE_DISTRIBUTION", "microprofile")
 		})
 
 		it("contributes external configuration when $BP_TOMEE_EXT_CONF_URI is set", func() {
@@ -379,11 +367,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 
 	context("$BP_TOMEE_CONTEXT_PATH", func() {
 		it.Before(func() {
-			Expect(os.Setenv("BP_TOMEE_CONTEXT_PATH", "/alpha/bravo/")).To(Succeed())
-		})
-
-		it.After(func() {
-			Expect(os.Unsetenv("BP_TOMEE_CONTEXT_PATH")).To(Succeed())
+			t.Setenv("BP_TOMEE_CONTEXT_PATH", "/alpha/bravo/")
 		})
 
 		it("returns transformed context path", func() {

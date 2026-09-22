@@ -44,12 +44,11 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 
 		ctx.Application.Path = path
 
-		Expect(os.Setenv("BP_JAVA_APP_SERVER", "tomee")).To(Succeed())
+		t.Setenv("BP_JAVA_APP_SERVER", "tomee")
 	})
 
 	it.After(func() {
 		Expect(os.RemoveAll(path)).To(Succeed())
-		Expect(os.Unsetenv("BP_JAVA_APP_SERVER")).To(Succeed())
 	})
 
 	it("fails with Main-Class", func() {
@@ -84,12 +83,7 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 
 	context("WEB-INF found", func() {
 		it.Before(func() {
-			Expect(os.Setenv("BP_JAVA_APP_SERVER", "tomee")).To(Succeed())
 			Expect(os.MkdirAll(filepath.Join(path, "WEB-INF"), 0755)).To(Succeed())
-		})
-
-		it.After(func() {
-			Expect(os.Unsetenv("BP_JAVA_APP_SERVER")).To(Succeed())
 		})
 
 		it("requires and provides jvm-application-artifact", func() {
@@ -116,14 +110,6 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 	})
 
 	context("BP_JAVA_APP_SERVER is set to `tomee`", func() {
-		it.Before(func() {
-			Expect(os.Setenv("BP_JAVA_APP_SERVER", "tomee")).To(Succeed())
-		})
-
-		it.After(func() {
-			Expect(os.Unsetenv("BP_JAVA_APP_SERVER")).To(Succeed())
-		})
-
 		it("contributes Tomee", func() {
 			Expect(detect.Detect(ctx)).To(Equal(libcnb.DetectResult{
 				Pass: true,
@@ -148,11 +134,7 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 
 	context("BP_JAVA_APP_SERVER is set to `foo`", func() {
 		it.Before(func() {
-			Expect(os.Setenv("BP_JAVA_APP_SERVER", "foo")).To(Succeed())
-		})
-
-		it.After(func() {
-			Expect(os.Unsetenv("BP_JAVA_APP_SERVER")).To(Succeed())
+			t.Setenv("BP_JAVA_APP_SERVER", "foo")
 		})
 
 		it("fails", func() {

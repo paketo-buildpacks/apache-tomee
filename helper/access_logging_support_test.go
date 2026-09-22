@@ -17,7 +17,6 @@
 package helper_test
 
 import (
-	"os"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -39,11 +38,7 @@ func testAccessLoggingSupport(t *testing.T, context spec.G, it spec.S) {
 
 	context("$BPL_TOMEE_ACCESS_LOGGING_ENABLED", func() {
 		it.Before(func() {
-			Expect(os.Setenv("BPL_TOMEE_ACCESS_LOGGING_ENABLED", "")).To(Succeed())
-		})
-
-		it.After(func() {
-			Expect(os.Unsetenv("BPL_TOMEE_ACCESS_LOGGING_ENABLED")).To(Succeed())
+			t.Setenv("BPL_TOMEE_ACCESS_LOGGING_ENABLED", "")
 		})
 
 		it("contributes configuration", func() {
@@ -52,11 +47,7 @@ func testAccessLoggingSupport(t *testing.T, context spec.G, it spec.S) {
 
 		context("$JAVA_TOOL_OPTIONS", func() {
 			it.Before(func() {
-				Expect(os.Setenv("JAVA_TOOL_OPTIONS", "test-java-tool-options")).To(Succeed())
-			})
-
-			it.After(func() {
-				Expect(os.Unsetenv("JAVA_TOOL_OPTIONS")).To(Succeed())
+				t.Setenv("JAVA_TOOL_OPTIONS", "test-java-tool-options")
 			})
 
 			it("contributes configuration appended to existing $JAVA_TOOL_OPTIONS", func() {
