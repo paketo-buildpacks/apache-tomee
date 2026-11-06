@@ -42,6 +42,7 @@ type Base struct {
 	ContextPath                     string
 	DependencyCache                 libpak.DependencyCache
 	ExternalConfigurationDependency *libpak.BuildpackDependency
+	IsEAR                           bool
 	LayerContributor                libpak.LayerContributor
 	LifecycleDependency             libpak.BuildpackDependency
 	LoggingDependency               libpak.BuildpackDependency
@@ -53,6 +54,7 @@ func NewBase(
 	buildpackPath string,
 	configurationResolver libpak.ConfigurationResolver,
 	contextPath string,
+	isEAR bool,
 	accessLoggingDependency libpak.BuildpackDependency,
 	externalConfigurationDependency *libpak.BuildpackDependency,
 	lifecycleDependency libpak.BuildpackDependency,
@@ -73,6 +75,7 @@ func NewBase(
 		ContextPath:                     contextPath,
 		DependencyCache:                 cache,
 		ExternalConfigurationDependency: externalConfigurationDependency,
+		IsEAR:                           isEAR,
 		LayerContributor: libpak.NewLayerContributor("Apache Tomee Support", map[string]interface{}{
 			"context-path": contextPath,
 			"dependencies": dependencies,
@@ -173,10 +176,23 @@ func (b Base) Contribute(layer libcnb.Layer) (libcnb.Layer, error) {
 			return libcnb.Layer{}, fmt.Errorf("unable to create directory %s\n%w", file, err)
 		}
 
-		file = filepath.Join(layer.Path, "webapps", b.ContextPath)
-		b.Logger.Headerf("Mounting application at %s", b.ContextPath)
-		if err := os.Symlink(b.ApplicationPath, file); err != nil {
-			return libcnb.Layer{}, fmt.Errorf("unable to create symlink from %s to %s\n%w", b.ApplicationPath, file, err)
+		if b.IsEAR {
+			file = filepath.Join(layer.Path, "apps")
+			if err := os.MkdirAll(file, 0755); err != nil {
+				return libcnb.Layer{}, fmt.Errorf("unable to create directory %s\n%w", file, err)
+			}
+
+			earLink := filepath.Join(layer.Path, "apps", b.ContextPath+".ear")
+			b.Logger.Headerf("Mounting EAR application at apps/%s.ear", b.ContextPath)
+			if err := os.Symlink(b.ApplicationPath, earLink); err != nil {
+				return libcnb.Layer{}, fmt.Errorf("unable to create symlink from %s to %s\n%w", b.ApplicationPath, earLink, err)
+			}
+		} else {
+			file = filepath.Join(layer.Path, "webapps", b.ContextPath)
+			b.Logger.Headerf("Mounting application at %s", b.ContextPath)
+			if err := os.Symlink(b.ApplicationPath, file); err != nil {
+				return libcnb.Layer{}, fmt.Errorf("unable to create symlink from %s to %s\n%w", b.ApplicationPath, file, err)
+			}
 		}
 
 		catalinaOpts := "-DBPI_TOMCAT_ADDITIONAL_COMMON_JARS=${BPI_TOMCAT_ADDITIONAL_COMMON_JARS}"
@@ -285,8 +301,20 @@ func (b Base) ContributeConfiguration(layer libcnb.Layer) error {
 	defer func() { _ = in.Close() }()
 
 	file = filepath.Join(layer.Path, "conf", "tomee.xml")
-	if err := sherpa.CopyFile(in, file); err != nil {
-		return fmt.Errorf("unable to copy %s to %s\n%w", in.Name(), file, err)
+	if b.IsEAR {
+		earTomeeXML := `<?xml version="1.0" encoding="UTF-8"?>
+<tomee>
+  <!-- see https://tomee.apache.org/latest/docs/admin/configuration/containers.html -->
+  <Deployments dir="apps" />
+</tomee>
+`
+		if err := os.WriteFile(file, []byte(earTomeeXML), 0644); err != nil {
+			return fmt.Errorf("unable to write %s\n%w", file, err)
+		}
+	} else {
+		if err := sherpa.CopyFile(in, file); err != nil {
+			return fmt.Errorf("unable to copy %s to %s\n%w", in.Name(), file, err)
+		}
 	}
 
 	b.Logger.Bodyf("Copying openejb.xml to %s/conf", layer.Path)

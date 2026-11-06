@@ -70,6 +70,12 @@ api = "0.7"
 
   [[metadata.configurations]]
     build = true
+    default = "false"
+    description = "force EAR deployment for applications without META-INF/application.xml"
+    name = "BP_TOMEE_EAR_ENABLED"
+
+  [[metadata.configurations]]
+    build = true
     default = "8.*"
     description = "the Tomee version"
     name = "BP_TOMEE_VERSION"

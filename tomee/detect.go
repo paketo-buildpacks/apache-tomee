@@ -82,14 +82,29 @@ func (d Detect) Detect(context libcnb.DetectContext) (libcnb.DetectResult, error
 		},
 	}
 
-	file := filepath.Join(context.Application.Path, "WEB-INF")
-	if _, err := os.Stat(file); err != nil && !os.IsNotExist(err) {
-		return libcnb.DetectResult{}, fmt.Errorf("unable to stat file %s\n%w", file, err)
-	} else if os.IsNotExist(err) {
-		d.Logger.Info("PASSED: a WEB-INF directory was not found, this is normal when building from source")
+	webInf := filepath.Join(context.Application.Path, "WEB-INF")
+	if _, err := os.Stat(webInf); err != nil && !os.IsNotExist(err) {
+		return libcnb.DetectResult{}, fmt.Errorf("unable to stat file %s\n%w", webInf, err)
+	} else if err == nil {
+		result.Plans[0].Provides = append(result.Plans[0].Provides, libcnb.BuildPlanProvide{Name: PlanEntryJVMApplicationPackage})
 		return result, nil
 	}
 
-	result.Plans[0].Provides = append(result.Plans[0].Provides, libcnb.BuildPlanProvide{Name: PlanEntryJVMApplicationPackage})
+	appXML := filepath.Join(context.Application.Path, "META-INF", "application.xml")
+	if _, err := os.Stat(appXML); err != nil && !os.IsNotExist(err) {
+		return libcnb.DetectResult{}, fmt.Errorf("unable to stat file %s\n%w", appXML, err)
+	} else if err == nil {
+		d.Logger.Info("PASSED: META-INF/application.xml found, detected as EAR application")
+		result.Plans[0].Provides = append(result.Plans[0].Provides, libcnb.BuildPlanProvide{Name: PlanEntryJVMApplicationPackage})
+		return result, nil
+	}
+
+	if cr.ResolveBool("BP_TOMEE_EAR_ENABLED") {
+		d.Logger.Info("PASSED: BP_TOMEE_EAR_ENABLED is set, treating application as EAR")
+		result.Plans[0].Provides = append(result.Plans[0].Provides, libcnb.BuildPlanProvide{Name: PlanEntryJVMApplicationPackage})
+		return result, nil
+	}
+
+	d.Logger.Info("PASSED: neither WEB-INF nor META-INF/application.xml was found, this is normal when building from source")
 	return result, nil
 }

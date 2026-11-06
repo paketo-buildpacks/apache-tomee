@@ -107,6 +107,7 @@ func testBase(t *testing.T, context spec.G, it spec.S) {
 			ctx.Buildpack.Path,
 			libpak.ConfigurationResolver{},
 			"test-context-path",
+			false,
 			accessLoggingDep,
 			nil,
 			lifecycleDep,
@@ -148,6 +149,65 @@ func testBase(t *testing.T, context spec.G, it spec.S) {
 		Expect(layer.LaunchEnvironment["CATALINA_OPTS.default"]).To(Equal("-DBPI_TOMCAT_ADDITIONAL_COMMON_JARS=${BPI_TOMCAT_ADDITIONAL_COMMON_JARS} -Dorg.apache.tomcat.util.digester.PROPERTY_SOURCE=org.apache.tomcat.util.digester.EnvironmentPropertySource"))
 	})
 
+	it("contributes catalina base for EAR application", func() {
+
+		accessLoggingDep := libpak.BuildpackDependency{
+			ID:     "tomcat-access-logging-support",
+			URI:    "https://localhost/stub-tomcat-access-logging-support.jar",
+			SHA256: "d723bfe2ba67dfa92b24e3b6c7b2d0e6a963de7313350e306d470e44e330a5d2",
+			PURL:   "pkg:generic/tomcat-access-logging-support@3.3.0",
+			CPEs:   []string{"cpe:2.3:a:cloudfoundry:tomcat-access-logging-support:3.3.0:*:*:*:*:*:*:*"},
+		}
+		lifecycleDep := libpak.BuildpackDependency{
+			ID:     "tomcat-lifecycle-support",
+			URI:    "https://localhost/stub-tomcat-lifecycle-support.jar",
+			SHA256: "723126712c0b22a7fe409664adf1fbb78cf3040e313a82c06696f5058e190534",
+			PURL:   "pkg:generic/tomcat-lifecycle-support@3.3.0",
+			CPEs:   []string{"cpe:2.3:a:cloudfoundry:tomcat-lifecycle-support:3.3.0:*:*:*:*:*:*:*"},
+		}
+		loggingDep := libpak.BuildpackDependency{
+			ID:     "tomcat-logging-support",
+			URI:    "https://localhost/stub-tomcat-logging-support.jar",
+			SHA256: "e0a7e163cc9f1ffd41c8de3942c7c6b505090b7484c2ba9be846334e31c44a2c",
+			PURL:   "pkg:generic/tomcat-logging-support@3.3.0",
+			CPEs:   []string{"cpe:2.3:a:cloudfoundry:tomcat-logging-support:3.3.0:*:*:*:*:*:*:*"},
+		}
+
+		dc := libpak.DependencyCache{CachePath: "testdata"}
+
+		contributor, entries := tomee.NewBase(
+			ctx.Application.Path,
+			ctx.Buildpack.Path,
+			libpak.ConfigurationResolver{},
+			"test-context-path",
+			true,
+			accessLoggingDep,
+			nil,
+			lifecycleDep,
+			loggingDep,
+			dc,
+		)
+		Expect(entries).To(HaveLen(0))
+
+		layer, err := ctx.Layers.Layer("test-layer-ear")
+		Expect(err).NotTo(HaveOccurred())
+
+		layer, err = contributor.Contribute(layer)
+		Expect(err).NotTo(HaveOccurred())
+
+		Expect(layer.Launch).To(BeTrue())
+
+		earLink := filepath.Join(layer.Path, "apps", "test-context-path.ear")
+		fi, err := os.Lstat(earLink)
+		Expect(err).NotTo(HaveOccurred())
+		Expect(fi.Mode() & os.ModeSymlink).To(Equal(os.ModeSymlink))
+		Expect(os.Readlink(earLink)).To(Equal(ctx.Application.Path))
+
+		tomeeXMLContent, err := os.ReadFile(filepath.Join(layer.Path, "conf", "tomee.xml"))
+		Expect(err).NotTo(HaveOccurred())
+		Expect(string(tomeeXMLContent)).To(ContainSubstring(`<Deployments dir="apps"`))
+	})
+
 	it("contributes custom configuration", func() {
 		externalConfigurationDep := libpak.BuildpackDependency{
 			ID:     "tomcat-external-configuration",
@@ -180,7 +240,7 @@ func testBase(t *testing.T, context spec.G, it spec.S) {
 
 		dc := libpak.DependencyCache{CachePath: "testdata"}
 
-		contrib, entries := tomee.NewBase(ctx.Application.Path, ctx.Buildpack.Path, libpak.ConfigurationResolver{}, "test-context-path", accessLoggingDep, &externalConfigurationDep, lifecycleDep, loggingDep, dc)
+		contrib, entries := tomee.NewBase(ctx.Application.Path, ctx.Buildpack.Path, libpak.ConfigurationResolver{}, "test-context-path", false, accessLoggingDep, &externalConfigurationDep, lifecycleDep, loggingDep, dc)
 		layer, err := ctx.Layers.Layer("test-layer")
 		Expect(err).NotTo(HaveOccurred())
 		Expect(entries).To(HaveLen(0))
@@ -228,7 +288,7 @@ func testBase(t *testing.T, context spec.G, it spec.S) {
 
 			dc := libpak.DependencyCache{CachePath: "testdata"}
 
-			contrib, entries := tomee.NewBase(ctx.Application.Path, ctx.Buildpack.Path, libpak.ConfigurationResolver{}, "test-context-path", accessLoggingDep, &externalConfigurationDep, lifecycleDep, loggingDep, dc)
+			contrib, entries := tomee.NewBase(ctx.Application.Path, ctx.Buildpack.Path, libpak.ConfigurationResolver{}, "test-context-path", false, accessLoggingDep, &externalConfigurationDep, lifecycleDep, loggingDep, dc)
 			Expect(entries).To(HaveLen(0))
 
 			layer, err := ctx.Layers.Layer("test-layer")
@@ -276,6 +336,7 @@ func testBase(t *testing.T, context spec.G, it spec.S) {
 				ctx.Buildpack.Path,
 				libpak.ConfigurationResolver{},
 				"test-context-path",
+				false,
 				accessLoggingDep,
 				nil,
 				lifecycleDep,

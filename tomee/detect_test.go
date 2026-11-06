@@ -109,6 +109,63 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 		})
 	})
 
+	context("META-INF/application.xml found (EAR)", func() {
+		it.Before(func() {
+			Expect(os.MkdirAll(filepath.Join(path, "META-INF"), 0755)).To(Succeed())
+			Expect(os.WriteFile(filepath.Join(path, "META-INF", "application.xml"), []byte(`<application/>`), 0644)).To(Succeed())
+		})
+
+		it("requires and provides jvm-application-package", func() {
+			Expect(detect.Detect(ctx)).To(Equal(libcnb.DetectResult{
+				Pass: true,
+				Plans: []libcnb.BuildPlan{
+					{
+						Provides: []libcnb.BuildPlanProvide{
+							{Name: "jvm-application"},
+							{Name: "java-app-server"},
+							{Name: "jvm-application-package"},
+						},
+						Requires: []libcnb.BuildPlanRequire{
+							{Name: "syft"},
+							{Name: "jre", Metadata: map[string]interface{}{"launch": true}},
+							{Name: "jvm-application-package"},
+							{Name: "jvm-application"},
+							{Name: "java-app-server"},
+						},
+					},
+				},
+			}))
+		})
+	})
+
+	context("BP_TOMEE_EAR_ENABLED is true (descriptor-less EAR)", func() {
+		it.Before(func() {
+			t.Setenv("BP_TOMEE_EAR_ENABLED", "true")
+		})
+
+		it("requires and provides jvm-application-package", func() {
+			Expect(detect.Detect(ctx)).To(Equal(libcnb.DetectResult{
+				Pass: true,
+				Plans: []libcnb.BuildPlan{
+					{
+						Provides: []libcnb.BuildPlanProvide{
+							{Name: "jvm-application"},
+							{Name: "java-app-server"},
+							{Name: "jvm-application-package"},
+						},
+						Requires: []libcnb.BuildPlanRequire{
+							{Name: "syft"},
+							{Name: "jre", Metadata: map[string]interface{}{"launch": true}},
+							{Name: "jvm-application-package"},
+							{Name: "jvm-application"},
+							{Name: "java-app-server"},
+						},
+					},
+				},
+			}))
+		})
+	})
+
 	context("BP_JAVA_APP_SERVER is set to `tomee`", func() {
 		it("contributes Tomee", func() {
 			Expect(detect.Detect(ctx)).To(Equal(libcnb.DetectResult{
