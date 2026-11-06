@@ -292,16 +292,9 @@ func (b Base) ContributeConfiguration(layer libcnb.Layer) error {
 		return fmt.Errorf("unable to copy %s to %s\n%w", in.Name(), file, err)
 	}
 
-	b.Logger.Bodyf("Copying tomee.xml to %s/conf", layer.Path)
-	file = filepath.Join(b.BuildpackPath, "resources", "tomee.xml")
-	in, err = os.Open(file)
-	if err != nil {
-		return fmt.Errorf("unable to open %s\n%w", file, err)
-	}
-	defer func() { _ = in.Close() }()
-
 	file = filepath.Join(layer.Path, "conf", "tomee.xml")
 	if b.IsEAR {
+		b.Logger.Bodyf("Writing tomee.xml with EAR deployments to %s/conf", layer.Path)
 		earTomeeXML := `<?xml version="1.0" encoding="UTF-8"?>
 <tomee>
   <!-- see https://tomee.apache.org/latest/docs/admin/configuration/containers.html -->
@@ -312,8 +305,15 @@ func (b Base) ContributeConfiguration(layer libcnb.Layer) error {
 			return fmt.Errorf("unable to write %s\n%w", file, err)
 		}
 	} else {
+		b.Logger.Bodyf("Copying tomee.xml to %s/conf", layer.Path)
+		src := filepath.Join(b.BuildpackPath, "resources", "tomee.xml")
+		in, err = os.Open(src)
+		if err != nil {
+			return fmt.Errorf("unable to open %s\n%w", src, err)
+		}
+		defer func() { _ = in.Close() }()
 		if err := sherpa.CopyFile(in, file); err != nil {
-			return fmt.Errorf("unable to copy %s to %s\n%w", in.Name(), file, err)
+			return fmt.Errorf("unable to copy %s to %s\n%w", src, file, err)
 		}
 	}
 
