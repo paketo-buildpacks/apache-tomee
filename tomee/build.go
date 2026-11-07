@@ -67,12 +67,7 @@ func (b Build) Build(context libcnb.BuildContext) (libcnb.BuildResult, error) {
 		return libcnb.BuildResult{}, fmt.Errorf("unable to create configuration resolver\n%w", err)
 	}
 
-	isEAR, err := isEARApplication(context.Application.Path, cr)
-	if err != nil {
-		return libcnb.BuildResult{}, fmt.Errorf("unable to detect application type\n%w", err)
-	}
-
-	isWAR, err := isWARApplication(context.Application.Path)
+	isWAR, isEAR, err := detectApplicationType(context.Application.Path, cr)
 	if err != nil {
 		return libcnb.BuildResult{}, fmt.Errorf("unable to detect application type\n%w", err)
 	}
@@ -204,28 +199,26 @@ func (b Build) ContextPath(configurationResolver libpak.ConfigurationResolver) s
 	return cp
 }
 
-func isWARApplication(appPath string) (bool, error) {
+func detectApplicationType(appPath string, cr libpak.ConfigurationResolver) (isWAR bool, isEAR bool, err error) {
 	webInf := filepath.Join(appPath, "WEB-INF")
-	_, err := os.Stat(webInf)
-	if err == nil {
-		return true, nil
+	_, statErr := os.Stat(webInf)
+	if statErr == nil {
+		return true, false, nil
 	}
-	if os.IsNotExist(err) {
-		return false, nil
+	if !os.IsNotExist(statErr) {
+		return false, false, fmt.Errorf("unable to stat %s\n%w", webInf, statErr)
 	}
-	return false, fmt.Errorf("unable to stat %s\n%w", webInf, err)
-}
 
-func isEARApplication(appPath string, cr libpak.ConfigurationResolver) (bool, error) {
 	appXML := filepath.Join(appPath, "META-INF", "application.xml")
-	_, err := os.Stat(appXML)
-	if err == nil {
-		return true, nil
+	_, statErr = os.Stat(appXML)
+	if statErr == nil {
+		return false, true, nil
 	}
-	if !os.IsNotExist(err) {
-		return false, fmt.Errorf("unable to stat %s\n%w", appXML, err)
+	if !os.IsNotExist(statErr) {
+		return false, false, fmt.Errorf("unable to stat %s\n%w", appXML, statErr)
 	}
-	return cr.ResolveBool("BP_TOMEE_EAR_ENABLED"), nil
+
+	return false, cr.ResolveBool("BP_TOMEE_EAR_ENABLED"), nil
 }
 
 func (b Build) tinyStartCommand(homePath, basePath string, loggingDep libpak.BuildpackDependency) (string, []string) {
@@ -255,3 +248,4 @@ func (b Build) tinyStartCommand(homePath, basePath string, loggingDep libpak.Bui
 
 	return command, arguments
 }
+

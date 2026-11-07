@@ -164,6 +164,30 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 				},
 			}))
 		})
+
+		it("does not treat WAR as EAR when BP_TOMEE_EAR_ENABLED is set", func() {
+			Expect(os.MkdirAll(filepath.Join(path, "WEB-INF"), 0755)).To(Succeed())
+
+			Expect(detect.Detect(ctx)).To(Equal(libcnb.DetectResult{
+				Pass: true,
+				Plans: []libcnb.BuildPlan{
+					{
+						Provides: []libcnb.BuildPlanProvide{
+							{Name: "jvm-application"},
+							{Name: "java-app-server"},
+							{Name: "jvm-application-package"},
+						},
+						Requires: []libcnb.BuildPlanRequire{
+							{Name: "syft"},
+							{Name: "jre", Metadata: map[string]interface{}{"launch": true}},
+							{Name: "jvm-application-package"},
+							{Name: "jvm-application"},
+							{Name: "java-app-server"},
+						},
+					},
+				},
+			}))
+		})
 	})
 
 	context("BP_JAVA_APP_SERVER is set to `tomee`", func() {
@@ -199,3 +223,4 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 		})
 	})
 }
+

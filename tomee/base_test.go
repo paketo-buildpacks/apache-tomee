@@ -62,7 +62,7 @@ func testBase(t *testing.T, context spec.G, it spec.S) {
 			To(Succeed())
 		Expect(os.WriteFile(filepath.Join(ctx.Buildpack.Path, "resources", "web.xml"), []byte{}, 0644)).
 			To(Succeed())
-		Expect(os.WriteFile(filepath.Join(ctx.Buildpack.Path, "resources", "tomee.xml"), []byte{}, 0644)).
+		Expect(os.WriteFile(filepath.Join(ctx.Buildpack.Path, "resources", "tomee.xml"), []byte(`<tomee><Deployments dir="apps" /></tomee>`), 0644)).
 			To(Succeed())
 		Expect(os.WriteFile(filepath.Join(ctx.Buildpack.Path, "resources", "openejb.xml"), []byte{}, 0644)).
 			To(Succeed())
@@ -381,3 +381,4 @@ func testBase(t *testing.T, context spec.G, it spec.S) {
 
 	})
 }
+

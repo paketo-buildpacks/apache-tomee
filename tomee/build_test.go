@@ -165,6 +165,52 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 			base := result.Layers[2].(tomee.Base)
 			Expect(base.IsEAR).To(BeTrue())
 		})
+
+		it("does not treat WAR as EAR when BP_TOMEE_EAR_ENABLED is set", func() {
+			Expect(os.MkdirAll(filepath.Join(ctx.Application.Path, "WEB-INF"), 0755)).To(Succeed())
+
+			ctx.Buildpack.Metadata = map[string]interface{}{
+				"dependencies": []map[string]interface{}{
+					{
+						"id":      "tomee-microprofile",
+						"version": "1.1.1",
+						"stacks":  []interface{}{"test-stack-id"},
+						"purl":    "pkg:generic/tomee@1.1.1",
+						"cpes":    "cpe:2.3:a:apache:tomee:1.1.1:*:*:*:*:*:*:*",
+					},
+					{
+						"id":      "tomcat-access-logging-support",
+						"version": "1.1.1",
+						"stacks":  []interface{}{"test-stack-id"},
+						"purl":    "pkg:generic/tomcat-access-logging-support@1.1.1",
+						"cpes":    "cpe:2.3:a:cloudfoundry:tomcat-access-logging-support:1.1.1:*:*:*:*:*:*:*",
+					},
+					{
+						"id":      "tomcat-lifecycle-support",
+						"version": "1.1.1",
+						"stacks":  []interface{}{"test-stack-id"},
+						"purl":    "pkg:generic/tomcat-lifecycle-logging-support@1.1.1",
+						"cpes":    "cpe:2.3:a:cloudfoundry:tomcat-lifecycle-logging-support:1.1.1:*:*:*:*:*:*:*",
+					},
+					{
+						"id":      "tomcat-logging-support",
+						"version": "1.1.1",
+						"uri":     "https://example.com/releases/tomcat-logging-support-1.1.1.RELEASE.jar",
+						"stacks":  []interface{}{"test-stack-id"},
+						"purl":    "pkg:generic/tomcat-logging-support@1.1.1",
+						"cpes":    "cpe:2.3:a:cloudfoundry:tomcat-logging-support:1.1.1:*:*:*:*:*:*:*",
+					},
+				},
+			}
+			ctx.StackID = "test-stack-id"
+
+			result, err := tomee.Build{SBOMScanner: &sbomScanner}.Build(ctx)
+			Expect(err).NotTo(HaveOccurred())
+
+			Expect(result.Layers).To(HaveLen(3))
+			base := result.Layers[2].(tomee.Base)
+			Expect(base.IsEAR).To(BeFalse())
+		})
 	})
 
 	it("does not contribute Tomee if Main-Class", func() {
@@ -474,3 +520,4 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 	})
 
 }
+
