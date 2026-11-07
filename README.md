@@ -31,7 +31,9 @@ For an exploded WAR (`WEB-INF/` present at the application root), the buildpack 
 
 ### EAR Deployment
 
-For an exploded EAR, the buildpack mounts the application into `$CATALINA_BASE/apps/<context-path>.ear` and writes a `tomee.xml` that enables `<Deployments dir="apps" />` so TomEE's OpenEJB container scans that directory at startup.
+For an exploded EAR, the buildpack mounts the application into `$CATALINA_BASE/apps/<context-path>.ear` and configures `tomee.xml` with `<Deployments dir="apps" />` so TomEE's OpenEJB container scans that directory at startup.
+
+> **Note:** `BP_TOMEE_CONTEXT_PATH` controls the archive name (e.g. `ROOT` → `apps/ROOT.ear`, `myapp` → `apps/myapp.ear`). Avoid values containing `/` — the `#`-separator substitution used in Tomcat's `webapps/` directory naming has no equivalent meaning for OpenEJB archive names.
 
 EAR deployment requires a TomEE distribution that includes the full EJB container. Set `BP_TOMEE_DISTRIBUTION` to `plus` or `plume` (see [Configuration](#configuration)).
 
