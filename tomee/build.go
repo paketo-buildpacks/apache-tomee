@@ -62,10 +62,17 @@ func (b Build) Build(context libcnb.BuildContext) (libcnb.BuildResult, error) {
 		return result, nil
 	}
 
-	file := filepath.Join(context.Application.Path, "WEB-INF")
-	if _, err := os.Stat(file); err != nil && !os.IsNotExist(err) {
-		return libcnb.BuildResult{}, fmt.Errorf("unable to stat file %s\n%w", file, err)
-	} else if os.IsNotExist(err) {
+	cr, err := libpak.NewConfigurationResolver(context.Buildpack, nil)
+	if err != nil {
+		return libcnb.BuildResult{}, fmt.Errorf("unable to create configuration resolver\n%w", err)
+	}
+
+	isWAR, isEAR, err := detectApplicationType(context.Application.Path, cr)
+	if err != nil {
+		return libcnb.BuildResult{}, fmt.Errorf("unable to detect application type\n%w", err)
+	}
+
+	if !isWAR && !isEAR {
 		for _, entry := range context.Plan.Entries {
 			result.Unmet = append(result.Unmet, libcnb.UnmetPlanEntry{Name: entry.Name})
 		}
@@ -74,7 +81,7 @@ func (b Build) Build(context libcnb.BuildContext) (libcnb.BuildResult, error) {
 
 	b.Logger.Title(context.Buildpack)
 
-	cr, err := libpak.NewConfigurationResolver(context.Buildpack, &b.Logger) // recreate so that config table is logged after the title
+	cr, err = libpak.NewConfigurationResolver(context.Buildpack, &b.Logger) // logs config table after the title
 	if err != nil {
 		return libcnb.BuildResult{}, fmt.Errorf("unable to create configuration resolver\n%w", err)
 	}
@@ -146,7 +153,7 @@ func (b Build) Build(context libcnb.BuildContext) (libcnb.BuildResult, error) {
 		}
 	}
 
-	base, bomEntries := NewBase(context.Application.Path, context.Buildpack.Path, cr, b.ContextPath(cr), accessLoggingDependency, externalConfigurationDependency, lifecycleDependency, loggingDependency, dc)
+	base, bomEntries := NewBase(context.Application.Path, context.Buildpack.Path, cr, b.ContextPath(cr), isEAR, accessLoggingDependency, externalConfigurationDependency, lifecycleDependency, loggingDependency, dc)
 
 	base.Logger = b.Logger
 	result.Layers = append(result.Layers, base)
@@ -192,6 +199,28 @@ func (b Build) ContextPath(configurationResolver libpak.ConfigurationResolver) s
 	return cp
 }
 
+func detectApplicationType(appPath string, cr libpak.ConfigurationResolver) (isWAR bool, isEAR bool, err error) {
+	webInf := filepath.Join(appPath, "WEB-INF")
+	_, statErr := os.Stat(webInf)
+	if statErr == nil {
+		return true, false, nil
+	}
+	if !os.IsNotExist(statErr) {
+		return false, false, fmt.Errorf("unable to stat %s\n%w", webInf, statErr)
+	}
+
+	appXML := filepath.Join(appPath, "META-INF", "application.xml")
+	_, statErr = os.Stat(appXML)
+	if statErr == nil {
+		return false, true, nil
+	}
+	if !os.IsNotExist(statErr) {
+		return false, false, fmt.Errorf("unable to stat %s\n%w", appXML, statErr)
+	}
+
+	return false, cr.ResolveBool("BP_TOMEE_EAR_ENABLED"), nil
+}
+
 func (b Build) tinyStartCommand(homePath, basePath string, loggingDep libpak.BuildpackDependency) (string, []string) {
 	command := "java"
 
@@ -219,3 +248,4 @@ func (b Build) tinyStartCommand(homePath, basePath string, loggingDep libpak.Bui
 
 	return command, arguments
 }
+

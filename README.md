@@ -3,12 +3,15 @@
 ## Buildpack ID: `paketo-buildpacks/apache-tomee`
 ## Registry URLs: `docker.io/paketobuildpacks/apache-tomee`
 
-The Apache Tomee Buildpack is a Cloud Native Buildpack that contributes Apache Tomee and Process Types for WARs.
+The Apache Tomee Buildpack is a Cloud Native Buildpack that contributes Apache Tomee and Process Types for WARs and EARs.
 
 ## Behavior
-This buildpack will participate all the following conditions are met
+This buildpack will participate when all the following conditions are met
 
-* `<APPLICATION_ROOT>/WEB-INF` exists
+* One of the following is true:
+  * `<APPLICATION_ROOT>/WEB-INF` exists
+  * `<APPLICATION_ROOT>/META-INF/application.xml` exists
+  * `BP_TOMEE_EAR_ENABLED` is set to `true` (descriptor-less or packed EAR, see below)
 * `Main-Class` is NOT defined in the manifest
 * `BP_JAVA_APP_SERVER` is set to `tomee`
 
@@ -21,6 +24,34 @@ The buildpack will do the following:
   * Contribute [Access Logging Support][als], [Lifecycle Support][lcs], and [Logging Support][lgs]
   * Contribute external configuration if available
 * Contributes `tomee`, `task`, and `web` process types
+
+### WAR Deployment
+
+For an exploded WAR (`WEB-INF/` present at the application root), the buildpack mounts the application into `$CATALINA_BASE/webapps/<context-path>`.
+
+### EAR Deployment
+
+For an exploded EAR, the buildpack mounts the application into `$CATALINA_BASE/apps/<context-path>.ear` and configures `tomee.xml` with `<Deployments dir="apps" />` so TomEE's OpenEJB container scans that directory at startup.
+
+> **Note:** `BP_TOMEE_CONTEXT_PATH` controls the archive name (e.g. `ROOT` → `apps/ROOT.ear`, `myapp` → `apps/myapp.ear`). Avoid values containing `/` — the `#`-separator substitution used in Tomcat's `webapps/` directory naming has no equivalent meaning for OpenEJB archive names.
+
+EAR deployment requires a TomEE distribution that includes the full EJB container. Set `BP_TOMEE_DISTRIBUTION` to `plus` or `plume` (see [Configuration](#configuration)).
+
+**Exploded EAR with `application.xml`** — detected automatically:
+```
+<APPLICATION_ROOT>/
+  META-INF/
+    application.xml
+  ejb-module.jar
+  web-module.war
+```
+
+**Descriptor-less EAR** (valid since Java EE 5) — set `BP_TOMEE_EAR_ENABLED=true`:
+```
+<APPLICATION_ROOT>/
+  ejb-module.jar
+  web-module.war
+```
 
 ### Tiny Stack
 
@@ -39,13 +70,14 @@ When this buildpack runs on the [Tiny stack](https://paketo.io/docs/concepts/sta
 | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `$BP_JAVA_APP_SERVER`                    | The application server to use. It defaults to the empty string, which allow the first Java application server in the buildpack order group to run. It can be set to `tomee` to force Tomee to be used. See the documentation for other Java application server buildpacks for other acceptable values.                                                          |
 | `$BP_TOMEE_CONTEXT_PATH`                 | The context path to mount the application at.  Defaults to empty (`ROOT`).                                                                                                                                                                                                                                                                                      |
+| `$BP_TOMEE_DISTRIBUTION`                 | Configure a specific Tomee distribution.  This value must be one of `microprofile`, `webprofile`, `plus` or `plume`. Defaults to `microprofile`. EAR deployments require `plus` or `plume`.                                                                                                                                                                     |
+| `$BP_TOMEE_EAR_ENABLED`                  | Set to `true` to treat the application as an EAR even when `META-INF/application.xml` is absent. Ignored when `WEB-INF` is present. Use this for descriptor-less EARs (valid since Java EE 5) or when staging from a packed `.ear` file that has been extracted into a directory. Defaults to `false`.                                                         |
 | `$BP_TOMEE_ENV_PROPERTY_SOURCE_DISABLED` | When true the buildpack will not configure `org.apache.tomcat.util.digester.EnvironmentPropertySource`. This configuration option is added to support loading configuration from environment variables and referencing them in Tomcat configuration files.                                                                                                      |
 | `$BP_TOMEE_EXT_CONF_SHA256`              | The SHA256 hash of the external configuration package                                                                                                                                                                                                                                                                                                           |
 | `$BP_TOMEE_EXT_CONF_STRIP`               | The number of directory levels to strip from the external configuration package.  Defaults to `0`.                                                                                                                                                                                                                                                              |
 | `$BP_TOMEE_EXT_CONF_URI`                 | The download URI of the external configuration package                                                                                                                                                                                                                                                                                                          |
 | `$BP_TOMEE_EXT_CONF_VERSION`             | The version of the external configuration package                                                                                                                                                                                                                                                                                                               |
 | `$BP_TOMEE_VERSION`                      | Configure a specific Tomee version.  This value must _exactly_ match a version available in the buildpack so typically it would configured to a wildcard such as `10.*`.                                                                                                                                                                                        |
-| `$BP_TOMEE_DISTRIBUTION`                 | Configure a specific Tomee distribution.  This value must be one of `microprofile`, `webprofile`, `plus` or `plume`. Defaults to `microprofile`.                                                                                                                                                                                                                |
 | `$BPL_TOMEE_ACCESS_LOGGING_ENABLED`      | Whether access logging should be activated.  Defaults to inactive.                                                                                                                                                                                                                                                                                              |
 | `BPI_TOMCAT_ADDITIONAL_JARS`             | This should only be used in other buildpacks to include a `jar` to the tomcat classpath. Several `jars` must be separated by `:`.                                                                                                                                                                                                                               |
 | `BPI_TOMCAT_ADDITIONAL_COMMON_JARS`      | This should be used by other buildpacks to include additional locations to be class loaded by the tomcat common classloader. For example a buildpack might contribute resources in its dedicated layer and add the location with this variable to be classloaded additionally by Tomcat. Both folder paths as well as single `jar` file paths can be specified. |
@@ -101,4 +133,5 @@ func (s) Contribute(layer libcnb.Layer) (libcnb.Layer, error) {
 This buildpack is released under version 2.0 of the [Apache License][a].
 
 [a]: http://www.apache.org/licenses/LICENSE-2.0
+
 

@@ -69,6 +69,150 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		Expect(result.Unmet[1].Name).To(Equal("java-app-server"))
 	})
 
+	it("contributes Tomee for EAR application", func() {
+		Expect(os.MkdirAll(filepath.Join(ctx.Application.Path, "META-INF"), 0755)).To(Succeed())
+		Expect(os.WriteFile(filepath.Join(ctx.Application.Path, "META-INF", "application.xml"), []byte(`<application/>`), 0644)).To(Succeed())
+
+		ctx.Buildpack.Metadata = map[string]interface{}{
+			"dependencies": []map[string]interface{}{
+				{
+					"id":      "tomee-microprofile",
+					"version": "1.1.1",
+					"stacks":  []interface{}{"test-stack-id"},
+					"purl":    "pkg:generic/tomee@1.1.1",
+					"cpes":    "cpe:2.3:a:apache:tomee:1.1.1:*:*:*:*:*:*:*",
+				},
+				{
+					"id":      "tomcat-access-logging-support",
+					"version": "1.1.1",
+					"stacks":  []interface{}{"test-stack-id"},
+					"purl":    "pkg:generic/tomcat-access-logging-support@1.1.1",
+					"cpes":    "cpe:2.3:a:cloudfoundry:tomcat-access-logging-support:1.1.1:*:*:*:*:*:*:*",
+				},
+				{
+					"id":      "tomcat-lifecycle-support",
+					"version": "1.1.1",
+					"stacks":  []interface{}{"test-stack-id"},
+					"purl":    "pkg:generic/tomcat-lifecycle-logging-support@1.1.1",
+					"cpes":    "cpe:2.3:a:cloudfoundry:tomcat-lifecycle-logging-support:1.1.1:*:*:*:*:*:*:*",
+				},
+				{
+					"id":      "tomcat-logging-support",
+					"version": "1.1.1",
+					"uri":     "https://example.com/releases/tomcat-logging-support-1.1.1.RELEASE.jar",
+					"stacks":  []interface{}{"test-stack-id"},
+					"purl":    "pkg:generic/tomcat-logging-support@1.1.1",
+					"cpes":    "cpe:2.3:a:cloudfoundry:tomcat-logging-support:1.1.1:*:*:*:*:*:*:*",
+				},
+			},
+		}
+		ctx.StackID = "test-stack-id"
+
+		result, err := tomee.Build{SBOMScanner: &sbomScanner}.Build(ctx)
+		Expect(err).NotTo(HaveOccurred())
+
+		Expect(result.Layers).To(HaveLen(3))
+		Expect(result.Layers[2].Name()).To(Equal("catalina-base"))
+		base := result.Layers[2].(tomee.Base)
+		Expect(base.IsEAR).To(BeTrue())
+	})
+
+	context("$BP_TOMEE_EAR_ENABLED", func() {
+		it.Before(func() {
+			t.Setenv("BP_TOMEE_EAR_ENABLED", "true")
+		})
+
+		it("contributes Tomee for descriptor-less EAR when BP_TOMEE_EAR_ENABLED is set", func() {
+			ctx.Buildpack.Metadata = map[string]interface{}{
+				"dependencies": []map[string]interface{}{
+					{
+						"id":      "tomee-microprofile",
+						"version": "1.1.1",
+						"stacks":  []interface{}{"test-stack-id"},
+						"purl":    "pkg:generic/tomee@1.1.1",
+						"cpes":    "cpe:2.3:a:apache:tomee:1.1.1:*:*:*:*:*:*:*",
+					},
+					{
+						"id":      "tomcat-access-logging-support",
+						"version": "1.1.1",
+						"stacks":  []interface{}{"test-stack-id"},
+						"purl":    "pkg:generic/tomcat-access-logging-support@1.1.1",
+						"cpes":    "cpe:2.3:a:cloudfoundry:tomcat-access-logging-support:1.1.1:*:*:*:*:*:*:*",
+					},
+					{
+						"id":      "tomcat-lifecycle-support",
+						"version": "1.1.1",
+						"stacks":  []interface{}{"test-stack-id"},
+						"purl":    "pkg:generic/tomcat-lifecycle-logging-support@1.1.1",
+						"cpes":    "cpe:2.3:a:cloudfoundry:tomcat-lifecycle-logging-support:1.1.1:*:*:*:*:*:*:*",
+					},
+					{
+						"id":      "tomcat-logging-support",
+						"version": "1.1.1",
+						"uri":     "https://example.com/releases/tomcat-logging-support-1.1.1.RELEASE.jar",
+						"stacks":  []interface{}{"test-stack-id"},
+						"purl":    "pkg:generic/tomcat-logging-support@1.1.1",
+						"cpes":    "cpe:2.3:a:cloudfoundry:tomcat-logging-support:1.1.1:*:*:*:*:*:*:*",
+					},
+				},
+			}
+			ctx.StackID = "test-stack-id"
+
+			result, err := tomee.Build{SBOMScanner: &sbomScanner}.Build(ctx)
+			Expect(err).NotTo(HaveOccurred())
+
+			Expect(result.Layers).To(HaveLen(3))
+			base := result.Layers[2].(tomee.Base)
+			Expect(base.IsEAR).To(BeTrue())
+		})
+
+		it("does not treat WAR as EAR when BP_TOMEE_EAR_ENABLED is set", func() {
+			Expect(os.MkdirAll(filepath.Join(ctx.Application.Path, "WEB-INF"), 0755)).To(Succeed())
+
+			ctx.Buildpack.Metadata = map[string]interface{}{
+				"dependencies": []map[string]interface{}{
+					{
+						"id":      "tomee-microprofile",
+						"version": "1.1.1",
+						"stacks":  []interface{}{"test-stack-id"},
+						"purl":    "pkg:generic/tomee@1.1.1",
+						"cpes":    "cpe:2.3:a:apache:tomee:1.1.1:*:*:*:*:*:*:*",
+					},
+					{
+						"id":      "tomcat-access-logging-support",
+						"version": "1.1.1",
+						"stacks":  []interface{}{"test-stack-id"},
+						"purl":    "pkg:generic/tomcat-access-logging-support@1.1.1",
+						"cpes":    "cpe:2.3:a:cloudfoundry:tomcat-access-logging-support:1.1.1:*:*:*:*:*:*:*",
+					},
+					{
+						"id":      "tomcat-lifecycle-support",
+						"version": "1.1.1",
+						"stacks":  []interface{}{"test-stack-id"},
+						"purl":    "pkg:generic/tomcat-lifecycle-logging-support@1.1.1",
+						"cpes":    "cpe:2.3:a:cloudfoundry:tomcat-lifecycle-logging-support:1.1.1:*:*:*:*:*:*:*",
+					},
+					{
+						"id":      "tomcat-logging-support",
+						"version": "1.1.1",
+						"uri":     "https://example.com/releases/tomcat-logging-support-1.1.1.RELEASE.jar",
+						"stacks":  []interface{}{"test-stack-id"},
+						"purl":    "pkg:generic/tomcat-logging-support@1.1.1",
+						"cpes":    "cpe:2.3:a:cloudfoundry:tomcat-logging-support:1.1.1:*:*:*:*:*:*:*",
+					},
+				},
+			}
+			ctx.StackID = "test-stack-id"
+
+			result, err := tomee.Build{SBOMScanner: &sbomScanner}.Build(ctx)
+			Expect(err).NotTo(HaveOccurred())
+
+			Expect(result.Layers).To(HaveLen(3))
+			base := result.Layers[2].(tomee.Base)
+			Expect(base.IsEAR).To(BeFalse())
+		})
+	})
+
 	it("does not contribute Tomee if Main-Class", func() {
 		Expect(os.MkdirAll(filepath.Join(ctx.Application.Path, "WEB-INF"), 0755)).To(Succeed())
 		Expect(os.MkdirAll(filepath.Join(ctx.Application.Path, "META-INF"), 0755)).To(Succeed())
@@ -376,3 +520,4 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 	})
 
 }
+
