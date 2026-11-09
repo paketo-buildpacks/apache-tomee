@@ -153,6 +153,10 @@ func (b Build) Build(context libcnb.BuildContext) (libcnb.BuildResult, error) {
 		}
 	}
 
+	if _, ok := cr.Resolve("BP_TOMEE_CONTEXT_PATH"); ok && isEAR {
+		b.Logger.Bodyf("WARNING: $BP_TOMEE_CONTEXT_PATH does not apply to EAR applications, mounting at apps/%s.ear", EARName)
+	}
+
 	base, bomEntries := NewBase(context.Application.Path, context.Buildpack.Path, cr, b.ContextPath(cr), isEAR, accessLoggingDependency, externalConfigurationDependency, lifecycleDependency, loggingDependency, dc)
 
 	base.Logger = b.Logger
@@ -248,4 +252,3 @@ func (b Build) tinyStartCommand(homePath, basePath string, loggingDep libpak.Bui
 
 	return command, arguments
 }
-

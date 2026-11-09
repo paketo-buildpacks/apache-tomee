@@ -31,9 +31,9 @@ For an exploded WAR (`WEB-INF/` present at the application root), the buildpack 
 
 ### EAR Deployment
 
-For an exploded EAR, the buildpack mounts the application into `$CATALINA_BASE/apps/<context-path>.ear` and configures `tomee.xml` with `<Deployments dir="apps" />` so TomEE's OpenEJB container scans that directory at startup.
+For an exploded EAR, the buildpack mounts the application into `$CATALINA_BASE/apps/app.ear` and configures `tomee.xml` with `<Deployments dir="apps" />` so TomEE's OpenEJB container scans that directory at startup.
 
-> **Note:** `BP_TOMEE_CONTEXT_PATH` controls the archive name (e.g. `ROOT` → `apps/ROOT.ear`, `myapp` → `apps/myapp.ear`). Avoid values containing `/` — the `#`-separator substitution used in Tomcat's `webapps/` directory naming has no equivalent meaning for OpenEJB archive names.
+> **Note:** `BP_TOMEE_CONTEXT_PATH` does not apply to EARs and is ignored. The EAR name is not a context path — OpenEJB derives the application name from it, which fills the `<app-name>` slot in `java:global/<app-name>/<module>/<bean>` lookups. Context roots for the web modules inside an EAR come from `<web><context-root>` in `application.xml`, and the application name can be overridden there with `<application-name>`.
 
 EAR deployment requires a TomEE distribution that includes the full EJB container. Set `BP_TOMEE_DISTRIBUTION` to `plus` or `plume` (see [Configuration](#configuration)).
 
@@ -69,7 +69,7 @@ When this buildpack runs on the [Tiny stack](https://paketo.io/docs/concepts/sta
 | Environment Variable                     | Description                                                                                                                                                                                                                                                                                                                                                     |
 | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `$BP_JAVA_APP_SERVER`                    | The application server to use. It defaults to the empty string, which allow the first Java application server in the buildpack order group to run. It can be set to `tomee` to force Tomee to be used. See the documentation for other Java application server buildpacks for other acceptable values.                                                          |
-| `$BP_TOMEE_CONTEXT_PATH`                 | The context path to mount the application at.  Defaults to empty (`ROOT`).                                                                                                                                                                                                                                                                                      |
+| `$BP_TOMEE_CONTEXT_PATH`                 | The context path to mount the application at.  Defaults to empty (`ROOT`).  WAR deployments only; ignored for EARs.                                                                                                                                                                                                                                             |
 | `$BP_TOMEE_DISTRIBUTION`                 | Configure a specific Tomee distribution.  This value must be one of `microprofile`, `webprofile`, `plus` or `plume`. Defaults to `microprofile`. EAR deployments require `plus` or `plume`.                                                                                                                                                                     |
 | `$BP_TOMEE_EAR_ENABLED`                  | Set to `true` to treat the application as an EAR even when `META-INF/application.xml` is absent. Ignored when `WEB-INF` is present. Use this for descriptor-less EARs (valid since Java EE 5) or when staging from a packed `.ear` file that has been extracted into a directory. Defaults to `false`.                                                         |
 | `$BP_TOMEE_ENV_PROPERTY_SOURCE_DISABLED` | When true the buildpack will not configure `org.apache.tomcat.util.digester.EnvironmentPropertySource`. This configuration option is added to support loading configuration from environment variables and referencing them in Tomcat configuration files.                                                                                                      |
@@ -133,5 +133,4 @@ func (s) Contribute(layer libcnb.Layer) (libcnb.Layer, error) {
 This buildpack is released under version 2.0 of the [Apache License][a].
 
 [a]: http://www.apache.org/licenses/LICENSE-2.0
-
 

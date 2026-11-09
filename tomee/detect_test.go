@@ -223,4 +223,3 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 		})
 	})
 }
-

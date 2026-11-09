@@ -38,7 +38,7 @@ api = "0.7"
 
   [[metadata.configurations]]
     build = true
-    description = "the application context path"
+    description = "the application context path, WAR deployments only"
     name = "BP_TOMEE_CONTEXT_PATH"
 
   [[metadata.configurations]]

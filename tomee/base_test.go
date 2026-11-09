@@ -197,11 +197,13 @@ func testBase(t *testing.T, context spec.G, it spec.S) {
 
 		Expect(layer.Launch).To(BeTrue())
 
-		earLink := filepath.Join(layer.Path, "apps", "test-context-path.ear")
+		// the context path must not leak into the EAR name, it becomes the OpenEJB application name
+		earLink := filepath.Join(layer.Path, "apps", "app.ear")
 		fi, err := os.Lstat(earLink)
 		Expect(err).NotTo(HaveOccurred())
 		Expect(fi.Mode() & os.ModeSymlink).To(Equal(os.ModeSymlink))
 		Expect(os.Readlink(earLink)).To(Equal(ctx.Application.Path))
+		Expect(filepath.Join(layer.Path, "apps", "test-context-path.ear")).NotTo(BeAnExistingFile())
 
 		tomeeXMLContent, err := os.ReadFile(filepath.Join(layer.Path, "conf", "tomee.xml"))
 		Expect(err).NotTo(HaveOccurred())
@@ -381,4 +383,3 @@ func testBase(t *testing.T, context spec.G, it spec.S) {
 
 	})
 }
-

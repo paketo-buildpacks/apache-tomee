@@ -34,6 +34,11 @@ import (
 	"github.com/paketo-buildpacks/libpak/sherpa"
 )
 
+// EARName is the name given to the deployed EAR. It is not a context path: OpenEJB derives the
+// application name from it, which in turn fills the <app-name> slot in java:global lookups. Web
+// module context roots come from <web><context-root> in application.xml instead.
+const EARName = "app"
+
 type Base struct {
 	AccessLoggingDependency         libpak.BuildpackDependency
 	ApplicationPath                 string
@@ -182,8 +187,8 @@ func (b Base) Contribute(layer libcnb.Layer) (libcnb.Layer, error) {
 		}
 
 		if b.IsEAR {
-			earLink := filepath.Join(layer.Path, "apps", b.ContextPath+".ear")
-			b.Logger.Headerf("Mounting EAR application at apps/%s.ear", b.ContextPath)
+			earLink := filepath.Join(layer.Path, "apps", EARName+".ear")
+			b.Logger.Headerf("Mounting EAR application at apps/%s.ear", EARName)
 			if err := os.Symlink(b.ApplicationPath, earLink); err != nil {
 				return libcnb.Layer{}, fmt.Errorf("unable to create symlink from %s to %s\n%w", b.ApplicationPath, earLink, err)
 			}
@@ -447,4 +452,3 @@ func (b Base) writeDependencySBOM(layer libcnb.Layer, syftArtifacts []sbom.SyftA
 func (Base) Name() string {
 	return "catalina-base"
 }
-
