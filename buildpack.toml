@@ -98,10 +98,10 @@ api = "0.7"
     name = "Apache Tomee - Microprofile"
     purl = "pkg:generic/apache-tomee@10.2.0"
     sha256 = "66612cceb29f9bba4c7ef7a0c598462ae08afa0cf96bda2ea2cb9d92e7d3d783"
-    source = "https://downloads.apache.org/tomee/tomee-10.2.0/tomee-project-10.2.0-source-release.zip"
+    source = "https://archive.apache.org/dist/tomee/tomee-10.2.0/tomee-project-10.2.0-source-release.zip"
     source-sha256 = "53a555c34710407e554cec361ecde785bb7c3584eb1ae1130c840c7f3eb92489"
     stacks = ["*"]
-    uri = "https://downloads.apache.org/tomee/tomee-10.2.0/apache-tomee-10.2.0-microprofile.tar.gz"
+    uri = "https://archive.apache.org/dist/tomee/tomee-10.2.0/apache-tomee-10.2.0-microprofile.tar.gz"
     version = "10.2.0"
 
     [[metadata.dependencies.licenses]]
@@ -114,10 +114,10 @@ api = "0.7"
     name = "Apache Tomee - Webprofile"
     purl = "pkg:generic/apache-tomee@10.2.0"
     sha256 = "b1143cbf3647160e88ba925bf0de5668d089d96e4f563bf3eeba2a33daf005ec"
-    source = "https://downloads.apache.org/tomee/tomee-10.2.0/tomee-project-10.2.0-source-release.zip"
+    source = "https://archive.apache.org/dist/tomee/tomee-10.2.0/tomee-project-10.2.0-source-release.zip"
     source-sha256 = "53a555c34710407e554cec361ecde785bb7c3584eb1ae1130c840c7f3eb92489"
     stacks = ["*"]
-    uri = "https://downloads.apache.org/tomee/tomee-10.2.0/apache-tomee-10.2.0-webprofile.tar.gz"
+    uri = "https://archive.apache.org/dist/tomee/tomee-10.2.0/apache-tomee-10.2.0-webprofile.tar.gz"
     version = "10.2.0"
 
     [[metadata.dependencies.licenses]]
@@ -130,10 +130,10 @@ api = "0.7"
     name = "Apache Tomee - Plus"
     purl = "pkg:generic/apache-tomee@10.2.0"
     sha256 = "57939efc1017d0c215c337e010a6df5013d159e1fc955443a4da687e93c9d0c2"
-    source = "https://downloads.apache.org/tomee/tomee-10.2.0/tomee-project-10.2.0-source-release.zip"
+    source = "https://archive.apache.org/dist/tomee/tomee-10.2.0/tomee-project-10.2.0-source-release.zip"
     source-sha256 = "53a555c34710407e554cec361ecde785bb7c3584eb1ae1130c840c7f3eb92489"
     stacks = ["*"]
-    uri = "https://downloads.apache.org/tomee/tomee-10.2.0/apache-tomee-10.2.0-plus.tar.gz"
+    uri = "https://archive.apache.org/dist/tomee/tomee-10.2.0/apache-tomee-10.2.0-plus.tar.gz"
     version = "10.2.0"
 
     [[metadata.dependencies.licenses]]
@@ -146,10 +146,10 @@ api = "0.7"
     name = "Apache Tomee - Plume"
     purl = "pkg:generic/apache-tomee@10.2.0"
     sha256 = "35a3debe0eb845b063f6f68c633bd14365a35f0c689d0780b1832c39bc83a78e"
-    source = "https://downloads.apache.org/tomee/tomee-10.2.0/tomee-project-10.2.0-source-release.zip"
+    source = "https://archive.apache.org/dist/tomee/tomee-10.2.0/tomee-project-10.2.0-source-release.zip"
     source-sha256 = "53a555c34710407e554cec361ecde785bb7c3584eb1ae1130c840c7f3eb92489"
     stacks = ["*"]
-    uri = "https://downloads.apache.org/tomee/tomee-10.2.0/apache-tomee-10.2.0-plume.tar.gz"
+    uri = "https://archive.apache.org/dist/tomee/tomee-10.2.0/apache-tomee-10.2.0-plume.tar.gz"
     version = "10.2.0"
 
     [[metadata.dependencies.licenses]]
